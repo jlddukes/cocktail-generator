@@ -1,3 +1,4 @@
+// modal function
 document.addEventListener('DOMContentLoaded', () => {
   // Functions to open and close a modal
   function openModal($el) {
