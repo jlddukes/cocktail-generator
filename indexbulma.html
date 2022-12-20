@@ -10,6 +10,7 @@
     <!--css link-->
     <link rel="stylesheet" href="./assets/css/style.css">
 </head>
+
 <body>
     <!-- header section with page title -->
     <header>
@@ -85,7 +86,7 @@
                         </div>
                     </label>
                     <div class="panel-block">
-                        <button class="button is-link is-outlined is-fullwidth">
+                        <button class="button is-link is-outlined is-fullwidth" id="searchBtn">
                             Search
                         </button>
                     </div>
@@ -127,7 +128,7 @@
             </div>
             <!--this is where the recipes would print with the below class attributes. the cards are clickable entirely and open a modal with detailed recipe and an option to save-->
             <div class="container">
-                <div class="columns is-multiline">
+                <div class="columns is-multiline" id="cardStorage">
                     <div class="column is-3">
                         <div class="card js-modal-trigger is-clickable" data-target="recipe-modal">
                             <div class="card-image">
@@ -182,7 +183,7 @@
                 </div>
             </div>
     </main>
-<!--recipe modal opens upon click of card, can be saved from the open modal-->
+    <!--recipe modal opens upon click of card, can be saved from the open modal-->
     <div id="recipe-modal" class="modal">
         <div class="modal-background"></div>
         <div class="modal-content">
