@@ -25,10 +25,11 @@
             </div>
         </section>
     </header>
+
     <main>
         <!-- columns class denotes the input area on the left side of the page -->
         <div class="columns m-3">
-            <div class="column is-4">
+            <section class="column is-4">
                 <!--this panel section includes the dropdown for ingredients, and would populate the list below with selected ingredients through dom traversal-->
                 <nav class="panel is-link">
                     <p class="panel-heading">
@@ -36,7 +37,7 @@
                     </p>
                     <div class="box">
                         <div class="select">
-                            <select>
+                            <select id="listSelection">
                                 <option>Bourbon</option>
                                 <option>Lemon</option>
                                 <option>Scotch</option>
@@ -125,9 +126,10 @@
                             </div>
                         </a>
                 </nav>
-            </div>
+            </section>
+
             <!--this is where the recipes would print with the below class attributes. the cards are clickable entirely and open a modal with detailed recipe and an option to save-->
-            <div class="container">
+            <section class="container column is-8">
                 <div class="columns is-multiline" id="cardStorage">
                     <div class="column is-3">
                         <div class="card js-modal-trigger is-clickable" data-target="recipe-modal">
@@ -181,15 +183,17 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </section>
+        </div>
     </main>
+
     <!--recipe modal opens upon click of card, can be saved from the open modal-->
-    <div id="recipe-modal" class="modal">
+    <!-- <div id="recipe-modal" class="modal">
         <div class="modal-background"></div>
         <div class="modal-content">
             <div class="box">
                 <div class="box">
-                    <p class="is-size-4 has-text-weight-medium">Ingredients</p>
+                    <p class="is-size-4 has-text-weight-medium" id="ingredientContainer">Ingredients</p>
                     <li>1.5 oz Bourbon</li>
                     <li>.5 oz Bourbon</li>
                     <li>5 Dashes Bitters</li>
@@ -204,7 +208,34 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> -->
+
+    <!-- Modal -->
+    <aside>
+
+    </aside>
+    <!-- <aside id="recipe-modal" class="modal">
+        <div class="modal-background"></div>
+        <div class="modal-content">
+            <div class="box">
+                <section class="box" id="ingredientSection">
+                    <p class="is-size-4 has-text-weight-medium">Ingredients</p>
+                    <li>1.5 oz Bourbon</li>
+                    <li>.5 oz Bourbon</li>
+                    <li>5 Dashes Bitters</li>
+                </section>
+                <section class="box" id="recipeSection">
+                    <p class="is-size-4 has-text-weight-medium">Recipe</p>
+                    <p>Pour all ingredients into a glass and stir.</p>
+                </section>
+                <div class="is-flex is-justify-content-space-between">
+                    <button class="button is-danger">Back</button>
+                    <button class="button is-link">Save</button>
+                </div>
+            </div>
+        </div>
+    </aside> -->
+
     <!--jquery path-->
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <!--js path-->
