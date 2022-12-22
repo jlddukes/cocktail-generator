@@ -1,5 +1,4 @@
 let searchBtnEl = $("#searchBtn");
-let userInputTextEl = $("#userInputText");
 let userSelectionEl = $("#listSelection");
 let api_id = "05349be7";
 let api_key = "302d463311eb7ca81f0fd2dcae2aa923";
@@ -28,7 +27,7 @@ function getOptionalParams() {
 // <------ Fetch API & Create Card & Create Modal ------>
 function getRecipeData(userInput, anArrayFromOptionalParams) {
   let urlApiEndpoint = "https://api.edamam.com/api/recipes/v2";
-  let urlApi = `${urlApiEndpoint}?app_id=${api_id}&app_key=${api_key}&type=public&q=${userInput}`
+  let urlApi = `${urlApiEndpoint}?app_id=${api_id}&app_key=${api_key}&type=public&q=${userInput}%cocktail`
 
   anArrayFromOptionalParams.forEach(element => {
     if (element) {
@@ -81,8 +80,8 @@ function getRecipeData(userInput, anArrayFromOptionalParams) {
                       <p class="is-size-4 has-text-weight-medium">Ingredients</p>
                   </section>
                   <section class="box recipeSection">
-                      <p class="is-size-4 has-text-weight-medium">Recipe</p>
-                      <p>abcedfghijklmnop...</p>
+                      <p class="is-size-4 has-text-weight-medium">Calorie</p>
+                      <p>${calories}</p>
                   </section>
                   <div class="is-flex is-justify-content-space-between">
                       <button class="button is-danger">Back</button>
