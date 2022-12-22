@@ -104,7 +104,7 @@ $('#recipe-box').on('click', function (event) {
 }
 )
 
-// The following is the temp code for api call 
+// {======= Fetching Data & Creating Clickable Cards(Modals) =======}
 let searchBtnEl = $("#searchBtn");
 let userInputTextEl = $("#userInputText");
 let userSelectionEl = $("#listSelection");
@@ -130,12 +130,12 @@ function getOptionalParams() {
   optionalArray.push(lowCalorieEl);
 
   return optionalArray;
-}
+};
 
 // <------ Fetch API & Create Card & Create Modal ------>
 function getRecipeData(userInput, anArrayFromOptionalParams) {
   let urlApiEndpoint = "https://api.edamam.com/api/recipes/v2";
-  let urlApi = `${urlApiEndpoint}?app_id=${api_id}&app_key=${api_key}&type=public&q=${userInput}`
+  let urlApi = `${urlApiEndpoint}?app_id=${api_id}&app_key=${api_key}&type=public&q=${userInput}%cocktail`
 
   anArrayFromOptionalParams.forEach(element => {
     if (element) {
@@ -188,8 +188,8 @@ function getRecipeData(userInput, anArrayFromOptionalParams) {
                       <p class="is-size-4 has-text-weight-medium">Ingredients</p>
                   </section>
                   <section class="box recipeSection">
-                      <p class="is-size-4 has-text-weight-medium">Recipe</p>
-                      <p>abcedfghijklmnop...</p>
+                      <p class="is-size-4 has-text-weight-medium">Calories</p>
+                      <p>${calories}</p>
                   </section>
                   <div class="is-flex is-justify-content-space-between">
                       <button class="button is-danger">Back</button>
@@ -228,15 +228,18 @@ function getRecipeData(userInput, anArrayFromOptionalParams) {
 
       });
     })
-}
+};
 
 // <------ Event Listener For Search Btn ------>
 searchBtnEl.on("click", function (evt) {
-  // let userinput = getUserInput();
-  let userinput = "Lemon";
-  getData(userinput);
-  // getDataFromCocktailDb(userinput);
-})
+  evt.preventDefault();
+
+  $("#cardsSection").text("");
+
+  let userinput = getUserSelection();
+  let anArray = getOptionalParams();
+  getRecipeData(userinput, anArray);
+});
 
 
 
