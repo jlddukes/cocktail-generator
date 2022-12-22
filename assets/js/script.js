@@ -95,10 +95,18 @@ $('#create-box-recipe').on('click', function createBoxRecipe() {
 
 })
 
+// this event listener removes the nearest ingredient card and removes the data from the ingredient card from the search-array
 $('#appear').on('click', function (event) {
   let userClick = event.target.nodeName;
   if (userClick === 'BUTTON') {
-    event.target.closest('#ingredient-card').remove()
+    let toBeRemoved = event.target.closest('#ingredient-card');
+    let text = toBeRemoved.textContent.trim().replace('Remove','').trim()
+    toBeRemoved.remove();
+    if (searchArray.includes(text)) {
+      searchArray = searchArray.splice(text,'');
+    } else {
+      return
+  }
   }
 }
 )
@@ -121,7 +129,7 @@ $('#add-ingredient').on('click', function (event) {
   `
 <div id="ingredient-card" class="panel-block is-flex is-justify-content-space-between is-align-content-center">
   <div class="js-modal-trigger is-clickable" data-target="recipe-modal">
-    <p>` + singleSelection + `</p>
+    <p id="ingredient-value">` + singleSelection + `</p>
   </div>
   <button class="button is-small" id="remove-ingredient-item">Remove</button>
 </div>
@@ -133,7 +141,6 @@ $('#add-ingredient').on('click', function (event) {
     } else {
       $('#appear').append(ingredientEl);
       searchArray.push(singleSelection);
-      console.log(searchArray);
   }
 }
 }
@@ -287,43 +294,3 @@ searchBtnEl.on("click", function (evt) {
 
 
 
-
-
-
-
-
-// var myButton = document.querySelector('#select')
-// var dropDown = document.querySelector('#listSelection')
-// var menue = document.querySelector('.appear')
-// myButton.addEventListener('click', (e)=>{
-//     if(dropDown.value != ""){
-//         e.preventDefault();
-//         var anchorEl = document.createElement('li')
-//         anchorEl.textContent = dropDown.value
-//         menue.appendChild(anchorEl);
-//         var mySpan2 = document.createElement('span');
-//         mySpan2.innerHTML = 'x'
-//         mySpan2.classList.add (".disappear")
-//         anchorEl.appendChild(mySpan2);
-//     }
-//     var close = document.querySelectorAll('span')
-//     for (let i = 0; i < close.length; i++) {
-//         close[i].addEventListener('click', ()=>{
-//             close[i].parentElement.style.opacity = 0;
-//             setTimeout(()=>{
-//                 close[i].parentElement.style.display = "none";
-//             }, 500)  
-//         })
-        
-//     }
-//     dropDown.value = "";
-
-
-//   evt.preventDefault();
-
-//   $("#cardsSection").text("");
-
-//   let userinput = getUserSelection();
-//   let anArray = getOptionalParams();
-//   getRecipeData(userinput, anArray);
-// })
