@@ -1,3 +1,5 @@
+let searchArray = []
+
 // modal code
 function modalCommand() {
   createModal()
@@ -93,6 +95,14 @@ $('#create-box-recipe').on('click', function createBoxRecipe() {
 
 })
 
+$('#appear').on('click', function (event) {
+  let userClick = event.target.nodeName;
+  if (userClick === 'BUTTON') {
+    event.target.closest('#ingredient-card').remove()
+  }
+}
+)
+
 // function that removes the clicked on recipe using the closest method
 $('#recipe-box').on('click', function (event) {
   let userClick = event.target.nodeName;
@@ -103,6 +113,31 @@ $('#recipe-box').on('click', function (event) {
 }
 )
 
+// function that adds ingredients to the panel
+$('#add-ingredient').on('click', function (event) {
+  event.preventDefault();
+  let singleSelection = $('#listSelection').val();
+  let ingredientEl = 
+  `
+<div id="ingredient-card" class="panel-block is-flex is-justify-content-space-between is-align-content-center">
+  <div class="js-modal-trigger is-clickable" data-target="recipe-modal">
+    <p>` + singleSelection + `</p>
+  </div>
+  <button class="button is-small" id="remove-ingredient-item">Remove</button>
+</div>
+`
+  if (singleSelection !== "") {
+    
+    if (searchArray.includes(singleSelection)) {
+      return
+    } else {
+      $('#appear').append(ingredientEl);
+      searchArray.push(singleSelection);
+      console.log(searchArray);
+  }
+}
+}
+)
 
 
 
