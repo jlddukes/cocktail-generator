@@ -144,4 +144,3 @@ function getIngredients(userInput) {
       // return ingredients;
     })
 }
-* /
