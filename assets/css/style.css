@@ -1,0 +1,37 @@
+#main-container{
+    margin: 0;
+}
+
+ /* .panel-block1{
+    display: none;
+}  */
+
+.edit1 {
+    margin: 10px;
+    float: right;
+    padding: 130px 90px 73px 75px;
+    border-style: dotted;
+}
+
+ul li span{
+    position: absolute;
+    /* top: 0; */
+    right: 0;
+    width: 50px;
+    text-align: center;
+    background: red
+
+}
+li{
+    transition: 0.5s linear;
+}
+
+.appear{
+    margin: 10px;
+    padding: 10px 10px 200px 10px;
+}
+
+.vue{
+    border-style: dotted;
+    border-bottom-color: red;
+}
