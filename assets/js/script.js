@@ -1,3 +1,11 @@
+
+var panelBlock1El = document.querySelector(".panel-block1");
+
+console.log(panelBlock1El)
+
+
+
+
 // modal function
 document.addEventListener('DOMContentLoaded', () => {
   // Functions to open and close a modal
