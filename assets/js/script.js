@@ -146,14 +146,14 @@ function getRecipeData(userInput, anArrayFromOptionalParams) {
     }
   });
   if (lastArrayEl) {
-    urlApi += last;
+    urlApi += lastArrayEl;
   };
 
   fetch(urlApi)
     .then((response) => { return response.json() })
     .then((data) => {
       // console.log(data);
-      // console.log(urlApi);
+      console.log(urlApi);
       let top8Data = data.hits.slice(0, 8);
 
       top8Data.forEach(element => {
