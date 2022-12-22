@@ -78,7 +78,6 @@ function createModal() {
   $('main').append(modalCard)
 }
 
-
 // stand-in button and eventlistener that creates a new 'saved recipe'
 $('#create-box-recipe').on('click', function createBoxRecipe() {
   let recipeBoxEl =
@@ -103,6 +102,18 @@ $('#recipe-box').on('click', function (event) {
   modalCommand()
 }
 )
+
+
+
+
+
+
+
+
+
+
+
+
 
 // The following is the temp code for api call 
 let searchBtnEl = $("#searchBtn");
@@ -246,38 +257,38 @@ searchBtnEl.on("click", function (evt) {
 
 
 
-var myButton = document.querySelector('#select')
-var dropDown = document.querySelector('#listSelection')
-var menue = document.querySelector('.appear')
-myButton.addEventListener('click', (e)=>{
-    if(dropDown.value != ""){
-        e.preventDefault();
-        var anchorEl = document.createElement('li')
-        anchorEl.textContent = dropDown.value
-        menue.appendChild(anchorEl);
-        var mySpan2 = document.createElement('span');
-        mySpan2.innerHTML = 'x'
-        mySpan2.classList.add (".disappear")
-        anchorEl.appendChild(mySpan2);
-    }
-    var close = document.querySelectorAll('span')
-    for (let i = 0; i < close.length; i++) {
-        close[i].addEventListener('click', ()=>{
-            close[i].parentElement.style.opacity = 0;
-            setTimeout(()=>{
-                close[i].parentElement.style.display = "none";
-            }, 500)  
-        })
+// var myButton = document.querySelector('#select')
+// var dropDown = document.querySelector('#listSelection')
+// var menue = document.querySelector('.appear')
+// myButton.addEventListener('click', (e)=>{
+//     if(dropDown.value != ""){
+//         e.preventDefault();
+//         var anchorEl = document.createElement('li')
+//         anchorEl.textContent = dropDown.value
+//         menue.appendChild(anchorEl);
+//         var mySpan2 = document.createElement('span');
+//         mySpan2.innerHTML = 'x'
+//         mySpan2.classList.add (".disappear")
+//         anchorEl.appendChild(mySpan2);
+//     }
+//     var close = document.querySelectorAll('span')
+//     for (let i = 0; i < close.length; i++) {
+//         close[i].addEventListener('click', ()=>{
+//             close[i].parentElement.style.opacity = 0;
+//             setTimeout(()=>{
+//                 close[i].parentElement.style.display = "none";
+//             }, 500)  
+//         })
         
-    }
-    dropDown.value = "";
+//     }
+//     dropDown.value = "";
 
 
-  evt.preventDefault();
+//   evt.preventDefault();
 
-  $("#cardsSection").text("");
+//   $("#cardsSection").text("");
 
-  let userinput = getUserSelection();
-  let anArray = getOptionalParams();
-  getRecipeData(userinput, anArray);
-})
+//   let userinput = getUserSelection();
+//   let anArray = getOptionalParams();
+//   getRecipeData(userinput, anArray);
+// })
