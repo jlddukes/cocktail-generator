@@ -133,14 +133,3 @@ searchBtnEl.on("click", function (evt) {
   let anArray = getOptionalParams();
   getRecipeData(userinput, anArray);
 })
-function getIngredients(userInput) {
-  let urlApiEndpoint = "https://api.edamam.com/api/recipes/v2";
-  let urlApi = `${urlApiEndpoint}?app_id=${api_id}&app_key=${api_key}&type=public&q=${userInput}`
-  fetch(urlApi)
-    .then((response) => { response.json(); })
-    .then((data) => {
-      console.log(data);
-      // let ingredients = data.hits[0].recipe.label;
-      // return ingredients;
-    })
-}
