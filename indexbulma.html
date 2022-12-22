@@ -25,10 +25,11 @@
             </div>
         </section>
     </header>
+
     <main>
         <!-- columns class denotes the input area on the left side of the page -->
         <div class="columns m-3">
-            <div class="column is-4">
+            <section class="column is-4">
                 <!--this panel section includes the dropdown for ingredients, and would populate the list below with selected ingredients through dom traversal-->
                 <nav class="panel is-link">
                     <p class="panel-heading">
@@ -36,7 +37,7 @@
                     </p>
                     <div class="box">
                         <div class="select">
-                            <select class="dropdown" placeholder="Item">
+                            <select id="listSelection">
                                 <option>Bourbon</option>
                                 <option>Lemon</option>
                                 <option>Scotch</option>
@@ -82,22 +83,22 @@
                     <!-- </a>  -->
                     <!--options could be included here to account for allergies and other preferences-->
                     <label class="panel-block">
-                        <div class="columns">
+                        <div class="columns" id="optionalParams">
                             <div class="column">
-                                <input type="checkbox">
-                                option
+                                <input type="checkbox" id="dairy-free">
+                                dairy free
                             </div>
                             <div class="column">
-                                <input type="checkbox">
-                                option
+                                <input type="checkbox" id="egg-free">
+                                egg free
                             </div>
                             <div class="column">
-                                <input type="checkbox">
-                                option
+                                <input type="checkbox" id="vegan">
+                                vegan
                             </div>
                             <div class="column">
-                                <input type="checkbox">
-                                option
+                                <input type="checkbox" id="low-calorie">
+                                low calorie
                             </div>
                         </div>
                     </label>
@@ -107,118 +108,20 @@
                         </button>
                     </div>
                 </nav>
-                <!--stored recipes would show up here, although presently only 2 print here. recipe modal is triggered straight from the recipe box-->
-                <nav class="panel is-link">
+                <!--stored recipes would show up here, recipe modal is triggered straight from the recipe box-->
+                <button id="create-box-recipe" class="button">Add Recipe Box Recipe</button>
+                <article class="panel is-link" id="recipe-box">
                     <p class="panel-heading">
                         Recipe Box
                     </p>
-                    <div class="box">
-                        <a class="panel-block">
-                            <span class="panel-icon">
-                                <i class="fas fa-book" aria-hidden="true"></i>
-                            </span>
-                            <div class="column is-6">
-                                <div class="card js-modal-trigger is-clickable" data-target="recipe-modal">
-                                    <div class="card-content">
-                                        <div class="media">
-                                            <div class="media-content">
-                                                <p class="title is-7">Stored Recipe</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="column is-6">
-                                <div class="card js-modal-trigger is-clickable" data-target="recipe-modal">
-                                    <div class="card-content">
-                                        <div class="media">
-                                            <div class="media-content">
-                                                <p class="title is-7">Stored Recipe</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </a>
-                </nav>
-            </div>
+                </article>
+            </section>
+
             <!--this is where the recipes would print with the below class attributes. the cards are clickable entirely and open a modal with detailed recipe and an option to save-->
-            <div class="container">
-                <div class="columns is-multiline" id="cardStorage">
-                    <div class="column is-3">
-                        <div class="card js-modal-trigger is-clickable" data-target="recipe-modal">
-                            <div class="card-image">
-                                <figure class="image">
-                                    <img src="https://www.liquor.com/thmb/NIIDroy7AQXG7DIMaCv7WQexmPw=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc():format(webp)/__opt__aboutcom__coeus__resources__content_migration__liquor__2018__05__08113350__bourbon-old-fashioned-720x720-recipe-ade6f7780c304999be3577e565c9bcdd.jpg"
-                                        alt="Placeholder image">
-                                </figure>
-                            </div>
-                            <div class="card-content">
-                                <div class="media">
-                                    <div class="media-content">
-                                        <p class="title is-4">Old Fashioned</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="column is-3">
-                        <div class="card js-modal-trigger is-clickable" data-target="recipe-modal">
-                            <div class="card-image">
-                                <figure class="image">
-                                    <img src="https://www.liquor.com/thmb/NIIDroy7AQXG7DIMaCv7WQexmPw=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc():format(webp)/__opt__aboutcom__coeus__resources__content_migration__liquor__2018__05__08113350__bourbon-old-fashioned-720x720-recipe-ade6f7780c304999be3577e565c9bcdd.jpg"
-                                        alt="Placeholder image">
-                                </figure>
-                            </div>
-                            <div class="card-content">
-                                <div class="media">
-                                    <div class="media-content">
-                                        <p class="title is-4">Old Fashioned</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="column is-3">
-                        <div class="card js-modal-trigger is-clickable" data-target="recipe-modal">
-                            <div class="card-image">
-                                <figure class="image">
-                                    <img src="https://www.liquor.com/thmb/NIIDroy7AQXG7DIMaCv7WQexmPw=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc():format(webp)/__opt__aboutcom__coeus__resources__content_migration__liquor__2018__05__08113350__bourbon-old-fashioned-720x720-recipe-ade6f7780c304999be3577e565c9bcdd.jpg"
-                                        alt="Placeholder image">
-                                </figure>
-                            </div>
-                            <div class="card-content">
-                                <div class="media">
-                                    <div class="media-content">
-                                        <p class="title is-4">Old Fashioned</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+            <section class="container column is-8">
+                <div class="columns is-multiline" id="cardsSection">
                 </div>
-            </div>
-    </main>
-    <!--recipe modal opens upon click of card, can be saved from the open modal-->
-    <div id="recipe-modal" class="modal">
-        <div class="modal-background"></div>
-        <div class="modal-content">
-            <div class="box">
-                <div class="box">
-                    <p class="is-size-4 has-text-weight-medium">Ingredients</p>
-                    <li>1.5 oz Bourbon</li>
-                    <li>.5 oz Bourbon</li>
-                    <li>5 Dashes Bitters</li>
-                </div>
-                <div class="box">
-                    <p class="is-size-4 has-text-weight-medium">Recipe</p>
-                    <p>Pour all ingredients into a glass and stir.</p>
-                </div>
-                <div class="is-flex is-justify-content-space-between">
-                    <button class="button is-danger">Back</button>
-                    <button class="button is-link">Save</button>
-                </div>
-            </div>
+            </section>
         </div>
     </div>
 
@@ -259,11 +162,5 @@
     <script type="text/javascript" src="./assets/js/script.js"></script>
     <script src="script1.js"></script>
 </body>
-
-
-
-
-
-
-
+<!--comment-->
 </html>
