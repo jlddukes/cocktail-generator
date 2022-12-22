@@ -4,21 +4,60 @@ let userSelectionEl = $("#listSelection");
 let api_id = "05349be7";
 let api_key = "302d463311eb7ca81f0fd2dcae2aa923";
 
+// <------ Get User Dropdown Selection ------>
 function getUserSelection() {
   return userSelectionEl.val();
 };
 
-function getRecipeData(userInput) {
+// <------ Get Checkbox For API Optional Params ------>
+function getOptionalParams() {
+  // &health=egg-free&health=fish-free&health=fodmap-free...
+
+  let optionalArray = [];
+  // let optionalUrl = "&health=egg-free&health=fish-free";
+  // let selectedOptions = userOptionalSelectionEl.val();
+  // let userOptionalSelectionEl = $("#optionalParams");
+
+  let diaryFreeEl = ($("#dairy-free").prop("checked") === true) ? "dairy-free" : "";
+  let eggFreeEl = ($("#egg-free").prop("checked") === true) ? "egg-free" : "";
+  let veganEl = ($("#vegan").prop("checked") === true) ? "vegan" : "";
+  let lowCalorieEl = ($("#low-calorie").prop("checked") === true) ? "low-sugar" : "";
+
+  optionalArray.push(diaryFreeEl);
+  optionalArray.push(eggFreeEl);
+  optionalArray.push(veganEl);
+  optionalArray.push(lowCalorieEl);
+
+  console.log("<=====start getUserOptionalParams=====>");
+  // console.log(selectedOptions);
+  // console.log($("#diary-free").prop("checked"));
+  // console.log(diaryFreeEl);
+  console.log(optionalArray);
+  console.log("<=====end getUserOptionalParams=====>");
+
+  return optionalArray;
+}
+
+// <------ Fetch API & Create Card & Create Modal ------>
+function getRecipeData(userInput, anArrayFromOptionalParams) {
   let urlApiEndpoint = "https://api.edamam.com/api/recipes/v2";
   let urlApi = `${urlApiEndpoint}?app_id=${api_id}&app_key=${api_key}&type=public&q=${userInput}`
+
+  anArrayFromOptionalParams.forEach(element => {
+    if (element) {
+      let optionalParams = `&health=${element}`
+      urlApi += optionalParams;
+    }
+  });
+
   fetch(urlApi)
     .then((response) => { return response.json() })
     .then((data) => {
       console.log(data);
 
-      let top5Data = data.hits.slice(0, 8);
+      let top8Data = data.hits.slice(0, 8);
 
-      top5Data.forEach(element => {
+      top8Data.forEach(element => {
         let calories = element.recipe.calories;
         let images = element.recipe.images.SMALL.url;
         let fullTitle = element.recipe.label;
@@ -89,7 +128,7 @@ function getRecipeData(userInput) {
           let target = $(this).next(".modal")
           target.addClass("is-active");
         })
-        
+
         $(`#${uniqueId}-modal`).on("click", ".is-danger", function (evt) {
           evt.preventDefault();
 
@@ -101,21 +140,23 @@ function getRecipeData(userInput) {
 
       console.log("<=====start getRecipeData=====>");
       // console.log(top5Data);
+      console.log(urlApi);
       console.log("<=====end getRecipeData=====>");
     })
 }
 
+// <------ Event Listener For Search Btn ------>
 searchBtnEl.on("click", function (evt) {
   evt.preventDefault();
 
   $("#cardsSection").text("");
-  // let userinput = "Bourbon";
+
   let userinput = getUserSelection();
-  getRecipeData(userinput);
+  let anArray = getOptionalParams();
+  getRecipeData(userinput, anArray);
 
   // getData(userinput);
   // getDataFromCocktailDb(userinput);
-
   console.log("<=====start search btn=====>");
   // console.log(userinput);
   console.log("<=====end search btn=====>");
