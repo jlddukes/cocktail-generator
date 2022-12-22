@@ -247,21 +247,18 @@ searchBtnEl.on("click", function (evt) {
 
 
 var myButton = document.querySelector('#select')
-var dropDown = document.querySelector('.dropdown')
+var dropDown = document.querySelector('#listSelection')
 var menue = document.querySelector('.appear')
 myButton.addEventListener('click', (e)=>{
     if(dropDown.value != ""){
         e.preventDefault();
-        //create li
         var anchorEl = document.createElement('li')
         anchorEl.textContent = dropDown.value
         menue.appendChild(anchorEl);
-        //create span
         var mySpan2 = document.createElement('span');
         mySpan2.innerHTML = 'x'
         mySpan2.classList.add (".disappear")
         anchorEl.appendChild(mySpan2);
-
     }
     var close = document.querySelectorAll('span')
     for (let i = 0; i < close.length; i++) {
