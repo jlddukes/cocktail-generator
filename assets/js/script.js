@@ -122,7 +122,7 @@ function getOptionalParams() {
   let diaryFreeEl = ($("#dairy-free").prop("checked") === true) ? "dairy-free" : "";
   let eggFreeEl = ($("#egg-free").prop("checked") === true) ? "egg-free" : "";
   let veganEl = ($("#vegan").prop("checked") === true) ? "vegan" : "";
-  let lowCalorieEl = ($("#low-calorie").prop("checked") === true) ? "low-sugar" : "";
+  let lowCalorieEl = ($("#low-calorie").prop("checked") === true) ? "&calories=100-200" : "";
 
   optionalArray.push(diaryFreeEl);
   optionalArray.push(eggFreeEl);
@@ -137,18 +137,23 @@ function getRecipeData(userInput, anArrayFromOptionalParams) {
   let urlApiEndpoint = "https://api.edamam.com/api/recipes/v2";
   let urlApi = `${urlApiEndpoint}?app_id=${api_id}&app_key=${api_key}&type=public&q=${userInput}%cocktail`
 
-  anArrayFromOptionalParams.forEach(element => {
+  let slicedArrayEl = anArrayFromOptionalParams.slice(0, 3);
+  let lastArrayEl = anArrayFromOptionalParams[3];
+  slicedArrayEl.forEach(element => {
     if (element) {
       let optionalParams = `&health=${element}`
       urlApi += optionalParams;
     }
   });
+  if (lastArrayEl) {
+    urlApi += last;
+  };
 
   fetch(urlApi)
     .then((response) => { return response.json() })
     .then((data) => {
-      console.log(data);
-
+      // console.log(data);
+      // console.log(urlApi);
       let top8Data = data.hits.slice(0, 8);
 
       top8Data.forEach(element => {
