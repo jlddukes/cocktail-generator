@@ -25,10 +25,11 @@
             </div>
         </section>
     </header>
+
     <main>
         <!-- columns class denotes the input area on the left side of the page -->
         <div class="columns m-3">
-            <div class="column is-4">
+            <section class="column is-4">
                 <!--this panel section includes the dropdown for ingredients, and would populate the list below with selected ingredients through dom traversal-->
                 <nav class="panel is-link">
                     <p class="panel-heading">
@@ -36,7 +37,7 @@
                     </p>
                     <div class="box">
                         <div class="select">
-                            <select>
+                            <select id="listSelection">
                                 <option>Bourbon</option>
                                 <option>Lemon</option>
                                 <option>Scotch</option>
@@ -66,22 +67,22 @@
                     </a>
                     <!--options could be included here to account for allergies and other preferences-->
                     <label class="panel-block">
-                        <div class="columns">
+                        <div class="columns" id="optionalParams">
                             <div class="column">
-                                <input type="checkbox">
-                                option
+                                <input type="checkbox" id="dairy-free">
+                                dairy free
                             </div>
                             <div class="column">
-                                <input type="checkbox">
-                                option
+                                <input type="checkbox" id="egg-free">
+                                egg free
                             </div>
                             <div class="column">
-                                <input type="checkbox">
-                                option
+                                <input type="checkbox" id="vegan">
+                                vegan
                             </div>
                             <div class="column">
-                                <input type="checkbox">
-                                option
+                                <input type="checkbox" id="low-calorie">
+                                low calorie
                             </div>
                         </div>
                     </label>
@@ -125,11 +126,12 @@
                             </div>
                         </a>
                 </nav>
-            </div>
+            </section>
+
             <!--this is where the recipes would print with the below class attributes. the cards are clickable entirely and open a modal with detailed recipe and an option to save-->
-            <div class="container">
-                <div class="columns is-multiline" id="cardStorage">
-                    <div class="column is-3">
+            <section class="container column is-8">
+                <div class="columns is-multiline" id="cardsSection">
+                    <!-- <div class="column is-3">
                         <div class="card js-modal-trigger is-clickable" data-target="recipe-modal">
                             <div class="card-image">
                                 <figure class="image">
@@ -179,17 +181,19 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
                 </div>
-            </div>
+            </section>
+        </div>
     </main>
+
     <!--recipe modal opens upon click of card, can be saved from the open modal-->
-    <div id="recipe-modal" class="modal">
+    <!-- <div id="recipe-modal" class="modal">
         <div class="modal-background"></div>
         <div class="modal-content">
             <div class="box">
                 <div class="box">
-                    <p class="is-size-4 has-text-weight-medium">Ingredients</p>
+                    <p class="is-size-4 has-text-weight-medium" id="ingredientContainer">Ingredients</p>
                     <li>1.5 oz Bourbon</li>
                     <li>.5 oz Bourbon</li>
                     <li>5 Dashes Bitters</li>
@@ -204,7 +208,8 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> -->
+
     <!--jquery path-->
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <!--js path-->
