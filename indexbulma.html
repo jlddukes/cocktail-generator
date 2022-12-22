@@ -92,40 +92,13 @@
                         </button>
                     </div>
                 </nav>
-                <!--stored recipes would show up here, although presently only 2 print here. recipe modal is triggered straight from the recipe box-->
-                <nav class="panel is-link">
+                <!--stored recipes would show up here, recipe modal is triggered straight from the recipe box-->
+                <button id="create-box-recipe" class="button">Add Recipe Box Recipe</button>
+                <article class="panel is-link" id="recipe-box">
                     <p class="panel-heading">
                         Recipe Box
                     </p>
-                    <div class="box">
-                        <a class="panel-block">
-                            <span class="panel-icon">
-                                <i class="fas fa-book" aria-hidden="true"></i>
-                            </span>
-                            <div class="column is-6">
-                                <div class="card js-modal-trigger is-clickable" data-target="recipe-modal">
-                                    <div class="card-content">
-                                        <div class="media">
-                                            <div class="media-content">
-                                                <p class="title is-7">Stored Recipe</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="column is-6">
-                                <div class="card js-modal-trigger is-clickable" data-target="recipe-modal">
-                                    <div class="card-content">
-                                        <div class="media">
-                                            <div class="media-content">
-                                                <p class="title is-7">Stored Recipe</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </a>
-                </nav>
+                </article>
             </section>
 
             <!--this is where the recipes would print with the below class attributes. the cards are clickable entirely and open a modal with detailed recipe and an option to save-->
@@ -141,5 +114,5 @@
     <!--js path-->
     <script type="text/javascript" src="./assets/js/script.js"></script>
 </body>
-
+<!--comment-->
 </html>
