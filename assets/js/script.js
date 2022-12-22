@@ -122,7 +122,7 @@ $('#recipe-box').on('click', function (event) {
 )
 
 // function that adds ingredients to the panel
-$('#add-ingredient').on('click', function (event) {
+$('#listSelection').on('change', function (event) {
   event.preventDefault();
   let singleSelection = $('#listSelection').val();
   let ingredientEl = 
@@ -134,7 +134,7 @@ $('#add-ingredient').on('click', function (event) {
   <button class="button is-small" id="remove-ingredient-item">Remove</button>
 </div>
 `
-  if (singleSelection !== "") {
+  if (singleSelection !== '' && singleSelection !== 'Select Ingredient') {
     
     if (searchArray.includes(singleSelection)) {
       return
