@@ -153,14 +153,15 @@ function getRecipeData(userInput, anArrayFromOptionalParams) {
     .then((response) => { return response.json() })
     .then((data) => {
       // console.log(data);
-      console.log(urlApi);
+      // console.log(urlApi);
+
       let top8Data = data.hits.slice(0, 8);
 
       top8Data.forEach(element => {
         let calories = element.recipe.calories;
         let images = element.recipe.images.SMALL.url;
         let fullTitle = element.recipe.label;
-        // let trimTitle = fullTitle.split(" ").join("");
+        let trimTitle = (fullTitle.length >= 25) ? `${fullTitle.substring(0, 22)}...` : fullTitle;
         let uniqueId = element.recipe.uri.split("_")[1];
         let ingredients = element.recipe.ingredients;
 
@@ -173,10 +174,10 @@ function getRecipeData(userInput, anArrayFromOptionalParams) {
                   <img src="${images}" alt="Placeholder image">
                 </figure>
               </div>
-              <div class="card-content">
+              <div class="card-content has-background-info-light">
                 <div class="media">
                   <div class="media-content">
-                      <p class="title is-4">${fullTitle}</p>
+                      <p class="title is-4">${trimTitle}</p>
                   </div>
                 </div>
               </div>
