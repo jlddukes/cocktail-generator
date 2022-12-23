@@ -1,3 +1,5 @@
+let searchArray = []
+
 // modal code
 function modalCommand() {
   createModal()
@@ -78,7 +80,6 @@ function createModal() {
   $('main').append(modalCard)
 }
 
-
 // stand-in button and eventlistener that creates a new 'saved recipe'
 $('#create-box-recipe').on('click', function createBoxRecipe() {
   let recipeBoxEl =
@@ -94,6 +95,22 @@ $('#create-box-recipe').on('click', function createBoxRecipe() {
 
 })
 
+// this event listener removes the nearest ingredient card and removes the data from the ingredient card from the search-array
+$('#appear').on('click', function (event) {
+  let userClick = event.target.nodeName;
+  if (userClick === 'BUTTON') {
+    let toBeRemoved = event.target.closest('#ingredient-card');
+    let text = toBeRemoved.textContent.trim().replace('Remove','').trim()
+    toBeRemoved.remove();
+    if (searchArray.includes(text)) {
+      searchArray = searchArray.splice(text,'');
+    } else {
+      return
+  }
+  }
+}
+)
+
 // function that removes the clicked on recipe using the closest method
 $('#recipe-box').on('click', function (event) {
   let userClick = event.target.nodeName;
@@ -104,7 +121,43 @@ $('#recipe-box').on('click', function (event) {
 }
 )
 
-// {======= Fetching Data & Creating Clickable Cards(Modals) =======}
+// function that adds ingredients to the panel
+$('#listSelection').on('change', function (event) {
+  event.preventDefault();
+  let singleSelection = $('#listSelection').val();
+  let ingredientEl = 
+  `
+<div id="ingredient-card" class="panel-block is-flex is-justify-content-space-between is-align-content-center">
+  <div class="js-modal-trigger is-clickable" data-target="recipe-modal">
+    <p id="ingredient-value">` + singleSelection + `</p>
+  </div>
+  <button class="button is-small" id="remove-ingredient-item">Remove</button>
+</div>
+`
+  if (singleSelection !== '' && singleSelection !== 'Select Ingredient') {
+    
+    if (searchArray.includes(singleSelection)) {
+      return
+    } else {
+      $('#appear').append(ingredientEl);
+      searchArray.push(singleSelection);
+  }
+}
+}
+)
+
+
+
+
+
+
+
+
+
+
+
+
+// The following is the temp code for api call 
 let searchBtnEl = $("#searchBtn");
 let userInputTextEl = $("#userInputText");
 let userSelectionEl = $("#listSelection");
@@ -250,43 +303,3 @@ searchBtnEl.on("click", function (evt) {
 
 
 
-
-
-var myButton = document.querySelector('#select')
-var dropDown = document.querySelector('.dropdown')
-var menue = document.querySelector('.appear')
-myButton.addEventListener('click', (e)=>{
-    if(dropDown.value != ""){
-        e.preventDefault();
-        //create li
-        var anchorEl = document.createElement('li')
-        anchorEl.textContent = dropDown.value
-        menue.appendChild(anchorEl);
-        //create span
-        var mySpan2 = document.createElement('span');
-        mySpan2.innerHTML = 'x'
-        mySpan2.classList.add (".disappear")
-        anchorEl.appendChild(mySpan2);
-
-    }
-    var close = document.querySelectorAll('span')
-    for (let i = 0; i < close.length; i++) {
-        close[i].addEventListener('click', ()=>{
-            close[i].parentElement.style.opacity = 0;
-            setTimeout(()=>{
-                close[i].parentElement.style.display = "none";
-            }, 500)  
-        })
-        
-    }
-    dropDown.value = "";
-
-
-  evt.preventDefault();
-
-  $("#cardsSection").text("");
-
-  let userinput = getUserSelection();
-  let anArray = getOptionalParams();
-  getRecipeData(userinput, anArray);
-})

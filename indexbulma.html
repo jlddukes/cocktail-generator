@@ -31,57 +31,26 @@
         <div class="columns m-3">
             <section class="column is-4">
                 <!--this panel section includes the dropdown for ingredients, and would populate the list below with selected ingredients through dom traversal-->
-                <nav class="panel is-link">
+                <nav class="panel is-link" >
                     <p class="panel-heading">
                         Select Ingredients
                     </p>
                     <div class="box">
-                        <div class="select">
-                            <select id="listSelection">
-                                <option>Bourbon</option>
-                                <option>Lemon</option>
-                                <option>Scotch</option>
-                                <option>Absinthe</option>
-                                <option>Club Soda</option>
-                            </select>
-                            <input type="submit" id="select" value="Add ingredient" />
-                            <ul class="lol">
-                                <!-- <li class="vue">A<span class="vue2">x</span></li>
-                                <li class="vue">B<span class="vue2">x</span></li>
-                                <li class="vue">C<span class="vue2">x</span></li>
-                                <li class="vue">D<span class="vue2">x</span></li> -->
-                            </ul>
+                        <div class="is-flex is-justify-content-space-between">
+                            <div class="select is-link">
+                                <select id="listSelection">
+                                    <option selected>Select Ingredient</option>
+                                    <option>Bourbon</option>
+                                    <option>Lemon</option>
+                                    <option>Scotch</option>
+                                    <option>Absinthe</option>
+                                    <option>Club Soda</option>
+                                </select>
+                            </div>
+                            <!-- <button type="submit" class="button" id="add-ingredient">Add</button> -->
                         </div>
                     </div>
-                    <div class="appear">
-                        <!-- <ul class="lol">
-                            <li class="vue">A<span class="vue2">x</span></li>
-                            <li class="vue">B<span class="vue2">x</span></li>
-                            <li class="vue">C<span class="vue2">x</span></li>
-                            <li class="vue">D<span class="vue2">x</span></li>
-                        </ul> -->
-
-                    </div>
-                    <!-- selected ingredients would pring here-->
-                     <!-- <a class="panel-block1">
-                        <span class="panel-icon">
-                            <i class="fas fa-book" aria-hidden="true"></i>
-                        </span>
-                         Bourbon
-                     </a> 
-                    <a class="panel-block1">
-                        <span class="panel-icon">
-                            <i class="fas fa-book" aria-hidden="true"></i>
-                        </span>  --> 
-                        <!-- Lemon -->
-                    <!-- </a>
-                    <a class="panel-block1">
-                        <span class="panel-icon">
-                            <i class="fas fa-book" aria-hidden="true"></i>
-                        </span> -->
-                        <!-- Orange -->
-                    <!-- </a>  -->
-                    <!--options could be included here to account for allergies and other preferences-->
+                    <div id="appear"></div>
                     <label class="panel-block">
                         <div class="columns" id="optionalParams">
                             <div class="column">
@@ -123,44 +92,12 @@
                 </div>
             </section>
         </div>
-    </div>
-
-    <aside class="edit1">
-        <h1>adding and removing lists</h1>
-
-        <form>
-            <select name="select">
-             <option>Select Game</option>
-             </select>
-            <input type="text" name="text" id="txt" required>
-            <button type="submit" class="btn-list">
-                <!-- <i class="fa fa-plus" aria-hidden="true"></i> -->
-            </button>
-        </form>
-        <div class="container">
-            <ul>
-                <!-- <li>A<span>x</span></li>
-                <li>B<span>x</span></li>
-                <li>C<span>x</span></li>
-                <li>D<span>x</span></li>
-            </ul>
-        </div> -->
-
-
-
-        </form>
-
-
-
-
-    </aside>
-
-
-    <!--jquery path-->
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-    <!--js path-->
-    <script type="text/javascript" src="./assets/js/script.js"></script>
-    <script src="script1.js"></script>
+        </div>
+        <!--jquery path-->
+        <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+        <!--js path-->
+        <script type="text/javascript" src="./assets/js/script.js"></script>
 </body>
 <!--comment-->
+
 </html>
