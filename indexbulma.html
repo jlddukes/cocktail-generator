@@ -31,9 +31,10 @@
         <div class="columns m-3">
             <section class="column is-4">
                 <!--this panel section includes the dropdown for ingredients, and would populate the list below with selected ingredients through dom traversal-->
-                <nav class="panel is-link" >
-                    <p class="panel-heading">
+                <nav class="panel is-link">
+                    <p class="panel-heading" id="panelHeading">
                         Select Ingredients
+                        <button class="button is-info" id="infoBtn">Info</button>
                     </p>
                     <div class="box">
                         <div class="is-flex is-justify-content-space-between">
@@ -89,6 +90,11 @@
             <!--this is where the recipes would print with the below class attributes. the cards are clickable entirely and open a modal with detailed recipe and an option to save-->
             <section class="container column is-8">
                 <div class="columns is-multiline" id="cardsSection">
+                </div>
+            </section>
+
+            <section>
+                <div class="modal" id="funFactSection">
                 </div>
             </section>
         </div>
