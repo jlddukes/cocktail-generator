@@ -72,13 +72,48 @@ function createModal() {
                 </div>
                 <div class="is-flex is-justify-content-space-between">
                     <button class="button is-danger" id="back-button">Back</button>
-                    <button class="button is-link">Save</button>
+                    <button class="button is-link" id="save-button">Save</button>
                 </div>
             </div>
         </div>
     </div >`
   $('main').append(modalCard)
+
+
 }
+
+
+
+var saveButton = document.getElementById("#save-button");
+
+saveButton.addEventListener("click", function(event) {
+  event.preventDefault();
+  console.log("The button was clicked")
+
+var recipeData = {
+
+}
+
+
+localStorage.setItem("modalCard", recipe)
+
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 // stand-in button and eventlistener that creates a new 'saved recipe'
 $('#create-box-recipe').on('click', function createBoxRecipe() {
@@ -252,7 +287,7 @@ function getRecipeData(userInput, anArrayFromOptionalParams) {
                   </section>
                   <div class="is-flex is-justify-content-space-between">
                       <button class="button is-danger">Back</button>
-                      <button class="button is-link">Save</button>
+                      <button class="button is-link">Save Me</button>
                   </div>
               </div>
             </div>
@@ -261,6 +296,18 @@ function getRecipeData(userInput, anArrayFromOptionalParams) {
         $("#cardsSection").append(appendedCard);
         $("#cardsSection").append(modalContent);
 
+
+
+       
+
+
+
+
+
+
+
+
+        
         // for appending ingredients list items
         ingredients.forEach((el) => {
           let target = $(`#${uniqueId}-modal .ingredientSection`);
@@ -299,7 +346,6 @@ searchBtnEl.on("click", function (evt) {
   let anArray = getOptionalParams();
   getRecipeData(userinput, anArray);
 });
-
 
 
 
