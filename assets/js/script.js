@@ -84,30 +84,35 @@ function createModal() {
 
 
 
-var saveButton = document.getElementById("#save-button");
+var savedRecipes = JSON.parse(localStorage.getItem("modalCard")) || []
 
-saveButton.addEventListener("click", function(event) {
-  event.preventDefault();
-  console.log("The button was clicked")
-
-var recipeData = {
-
+//
+function getSavedRecipes(){
+  //get recipe box by id
+  //CLEAR OLD recipes recipeBox.innerHTML = ""
+  //loop through saveRecipes
+  //create element and put text (and maybe id) on single recipe row
+  //append to recipe box
 }
+getSavedRecipes()
+
+//
+function saveRecipe(event) {
+  // event.preventDefault();
+  console.log("The button was clicked")
+  console.log(event.target);
 
 
-localStorage.setItem("modalCard", recipe)
+  var recipeData = {
+    name: event.target.dataset.name,
+    id: event.target.dataset.id
+  }
+  savedRecipes.push(recipeData)
 
-});
-
-
-
-
-
-
-
-
-
-
+//
+  localStorage.setItem("modalCard", JSON.stringify(savedRecipes))
+  getSavedRecipes()
+  };
 
 
 
@@ -287,7 +292,7 @@ function getRecipeData(userInput, anArrayFromOptionalParams) {
                   </section>
                   <div class="is-flex is-justify-content-space-between">
                       <button class="button is-danger">Back</button>
-                      <button class="button is-link">Save Me</button>
+                      <button onclick="saveRecipe(event)" data-id= "${uniqueId}" data-name="${fullTitle}" class="button is-link">Save Me!</button>
                   </div>
               </div>
             </div>
@@ -296,8 +301,7 @@ function getRecipeData(userInput, anArrayFromOptionalParams) {
         $("#cardsSection").append(appendedCard);
         $("#cardsSection").append(modalContent);
 
-
-
+          
        
 
 
