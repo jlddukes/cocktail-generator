@@ -86,7 +86,7 @@ function createModal() {
 
 var savedRecipes = JSON.parse(localStorage.getItem("modalCard")) || []
 
-//
+//This function adds recipes to recipe box
 function getSavedRecipes(){
   //get recipe box by id
   //CLEAR OLD recipes recipeBox.innerHTML = ""
@@ -96,7 +96,7 @@ function getSavedRecipes(){
 }
 getSavedRecipes()
 
-//
+//THis function creates event when save button is clicked
 function saveRecipe(event) {
   // event.preventDefault();
   console.log("The button was clicked")
@@ -109,7 +109,7 @@ function saveRecipe(event) {
   }
   savedRecipes.push(recipeData)
 
-//
+//This line of code adds selected recipe information to local storage
   localStorage.setItem("modalCard", JSON.stringify(savedRecipes))
   getSavedRecipes()
   };
@@ -302,7 +302,7 @@ function getRecipeData(userInput, anArrayFromOptionalParams) {
         $("#cardsSection").append(modalContent);
 
           
-       
+       //To add new more information from saved recipes to lacal storage, add additional unique "data-.." code
 
 
 
