@@ -72,13 +72,53 @@ function createModal() {
                 </div>
                 <div class="is-flex is-justify-content-space-between">
                     <button class="button is-danger" id="back-button">Back</button>
-                    <button class="button is-link">Save</button>
+                    <button class="button is-link" id="save-button">Save</button>
                 </div>
             </div>
         </div>
     </div >`
   $('main').append(modalCard)
+
+
 }
+
+
+
+var savedRecipes = JSON.parse(localStorage.getItem("modalCard")) || []
+
+//This function adds recipes to recipe box
+function getSavedRecipes(){
+  //get recipe box by id
+  //CLEAR OLD recipes recipeBox.innerHTML = ""
+  //loop through saveRecipes
+  //create element and put text (and maybe id) on single recipe row
+  //append to recipe box
+}
+getSavedRecipes()
+
+//THis function creates event when save button is clicked
+function saveRecipe(event) {
+  // event.preventDefault();
+  console.log("The button was clicked")
+  console.log(event.target);
+
+
+  var recipeData = {
+    name: event.target.dataset.name,
+    id: event.target.dataset.id
+  }
+  savedRecipes.push(recipeData)
+
+//This line of code adds selected recipe information to local storage
+  localStorage.setItem("modalCard", JSON.stringify(savedRecipes))
+  getSavedRecipes()
+  };
+
+
+
+
+
+
 
 // stand-in button and eventlistener that creates a new 'saved recipe'
 $('#create-box-recipe').on('click', function createBoxRecipe() {
@@ -261,7 +301,7 @@ function getRecipeData(userInput, anArrayFromOptionalParams) {
                   </section>
                   <div class="is-flex is-justify-content-space-between">
                       <button class="button is-danger">Back</button>
-                      <button class="button is-link">Save</button>
+                      <button onclick="saveRecipe(event)" data-id= "${uniqueId}" data-name="${fullTitle}" class="button is-link">Save Me!</button>
                   </div>
               </div>
             </div>
@@ -270,6 +310,17 @@ function getRecipeData(userInput, anArrayFromOptionalParams) {
         $("#cardsSection").append(appendedCard);
         $("#cardsSection").append(modalContent);
 
+          
+       //To add new more information from saved recipes to lacal storage, add additional unique "data-.." code
+
+
+
+
+
+
+
+
+        
         // for appending ingredients list items
         ingredients.forEach((el) => {
           let target = $(`#${uniqueId}-modal .ingredientSection`);
@@ -350,13 +401,4 @@ infoBtnEl.on("click", function (evt) {
   let userinput = getUserSelection();
   getCocktialDbData(userinput);
 
-
-  $("#funFactSection").addClass("is-active");
-})
-
-// <------ Event Listener For Fun Fact Close Btn ------>
-$("#funFactSection").on("click", "button", function (evt) {
-  evt.preventDefault();
-  $("#funFactSection").removeClass("is-active");
-  $("#funFactSection").text("");
 })
