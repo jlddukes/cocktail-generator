@@ -135,7 +135,7 @@ $('#create-box-recipe').on('click', function createBoxRecipe() {
 
 })
 
-// this event listener removes the nearest ingredient card and removes the data from the ingredient card from the search-array
+// this event listener removes the nearest ingredient card and removes the data from the ingredient card from the search-array using the replace and trim functions to trim the string and the indexOf and splice to remove the element from the array
 $('#appear').on('click', function (event) {
   let userClick = event.target.nodeName;
   if (userClick === 'BUTTON') {
@@ -143,10 +143,11 @@ $('#appear').on('click', function (event) {
     let text = toBeRemoved.textContent.trim().replace('Remove','').trim()
     toBeRemoved.remove();
     if (searchArray.includes(text)) {
-      searchArray = searchArray.splice(text,'');
+      let indexNumber = searchArray.indexOf(text);
+      searchArray.splice(indexNumber, 1);
     } else {
       return
-  }
+    }
   }
 }
 )
@@ -155,7 +156,7 @@ $('#appear').on('click', function (event) {
 $('#recipe-box').on('click', function (event) {
   let userClick = event.target.nodeName;
   if (userClick === 'BUTTON') {
-    event.target.closest('#saved-recipe-card').remove()
+    event.target.closest('#saved-recipe-card').remove();
   }
   modalCommand()
 }
@@ -165,8 +166,8 @@ $('#recipe-box').on('click', function (event) {
 $('#listSelection').on('change', function (event) {
   event.preventDefault();
   let singleSelection = $('#listSelection').val();
-  let ingredientEl = 
-  `
+  let ingredientEl =
+    `
 <div id="ingredient-card" class="panel-block is-flex is-justify-content-space-between is-align-content-center">
   <div class="js-modal-trigger is-clickable" data-target="recipe-modal">
     <p id="ingredient-value">` + singleSelection + `</p>
@@ -175,14 +176,14 @@ $('#listSelection').on('change', function (event) {
 </div>
 `
   if (singleSelection !== '' && singleSelection !== 'Select Ingredient') {
-    
+
     if (searchArray.includes(singleSelection)) {
       return
     } else {
       $('#appear').append(ingredientEl);
       searchArray.push(singleSelection);
+    }
   }
-}
 }
 )
 
@@ -197,8 +198,9 @@ $('#listSelection').on('change', function (event) {
 
 
 
-// The following is the temp code for api call 
+// {======= Get User Dropdown Selection =======}
 let searchBtnEl = $("#searchBtn");
+let infoBtnEl = $("#infoBtn");
 let userInputTextEl = $("#userInputText");
 let userSelectionEl = $("#listSelection");
 let api_id = "05349be7";
@@ -206,7 +208,10 @@ let api_key = "302d463311eb7ca81f0fd2dcae2aa923";
 
 // <------ Get User Dropdown Selection ------>
 function getUserSelection() {
-  return userSelectionEl.val();
+  let keyword = userSelectionEl.val();
+  let trimKeyword = keyword.split(" ").join("");
+
+  return trimKeyword;
 };
 
 // <------ Get Checkbox For API Optional Params ------>
@@ -254,7 +259,7 @@ function getRecipeData(userInput, anArrayFromOptionalParams) {
         let calories = element.recipe.calories;
         let images = element.recipe.images.SMALL.url;
         let fullTitle = element.recipe.label;
-        let trimTitle = (fullTitle.length >= 25) ? `${fullTitle.substring(0, 22)}...` : fullTitle;
+        let trimTitle = (fullTitle.length >= 26) ? `${fullTitle.substring(0, 20)}...` : fullTitle;
         let uniqueId = element.recipe.uri.split("_")[1];
         let ingredients = element.recipe.ingredients;
 
@@ -283,6 +288,10 @@ function getRecipeData(userInput, anArrayFromOptionalParams) {
             <div class="modal-background"></div>
             <div class="modal-content">
               <div class="box">
+                  <section class="box fullTitleSection">
+                  <p class="is-size-4 has-text-weight-medium">Title</p>
+                  <p>${fullTitle}</p>
+                  </section>
                   <section class="box ingredientSection">
                       <p class="is-size-4 has-text-weight-medium">Ingredients</p>
                   </section>
@@ -340,6 +349,40 @@ function getRecipeData(userInput, anArrayFromOptionalParams) {
     })
 };
 
+// <------ Fetch API & Create Fun Facts By Ingredients Name ------>
+function getCocktialDbData(userInput) {
+  let urlApiEndpoint = "https://www.thecocktaildb.com/api/json/v1/1/search.php?i=";
+  let urlApi = `${urlApiEndpoint}${userInput}`;
+
+  fetch(urlApi)
+    .then(res => { return res.json() })
+    .then(data => {
+      console.log(data);
+
+      let funFact = data.ingredients[0].strDescription;
+      let modalContent =
+        `
+      <div class="modal-background"></div>
+      <div class="modal-card">
+          <header class="modal-card-head">
+              <p class="modal-card-title">${userInput}</p>
+              <button class="delete" aria-label="close"></button>
+          </header>
+          <section class="modal-card-body">
+              ${funFact}
+          </section>
+          <footer class="modal-card-foot">
+              Fun Fact From CocktialDB
+          </footer>
+      </div>`;
+
+      $("#funFactSection").append(modalContent);
+
+      // console.log(funFact);
+    }
+    )
+}
+
 // <------ Event Listener For Search Btn ------>
 searchBtnEl.on("click", function (evt) {
   evt.preventDefault();
@@ -351,5 +394,23 @@ searchBtnEl.on("click", function (evt) {
   getRecipeData(userinput, anArray);
 });
 
+// <------ Event Listener For Info Btn ------>
+infoBtnEl.on("click", function (evt) {
+  evt.preventDefault();
+
+  let userinput = getUserSelection();
+  getCocktialDbData(userinput);
 
 
+<<<<<<< HEAD
+=======
+  $("#funFactSection").addClass("is-active");
+})
+
+// <------ Event Listener For Fun Fact Close Btn ------>
+$("#funFactSection").on("click", "button", function (evt) {
+  evt.preventDefault();
+  $("#funFactSection").removeClass("is-active");
+  $("#funFactSection").text("");
+})
+>>>>>>> origin/main

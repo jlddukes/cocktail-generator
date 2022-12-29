@@ -31,9 +31,10 @@
         <div class="columns m-3">
             <section class="column is-4">
                 <!--this panel section includes the dropdown for ingredients, and would populate the list below with selected ingredients through dom traversal-->
-                <nav class="panel is-link" >
-                    <p class="panel-heading">
+                <nav class="panel is-link">
+                    <p class="panel-heading" id="panelHeading">
                         Select Ingredients
+                        <button class="button is-info" id="infoBtn">Info</button>
                     </p>
                     <div class="box">
                         <div class="is-flex is-justify-content-space-between">
@@ -116,6 +117,11 @@
                 <div class="columns is-multiline" id="cardsSection">
                 </div>
             </section>
+
+            <section>
+                <div class="modal" id="funFactSection">
+                </div>
+            </section>
         </div>
         </div>
         <!--jquery path-->
@@ -123,7 +129,6 @@
         <!--js path-->
         <script type="text/javascript" src="./assets/js/script.js"></script>
 
-        <script type="text/javascript" src="assets/js/script2.js"></script>
 </body>
 <!--comment-->
 
