@@ -87,7 +87,7 @@ function createModal() {
 var savedRecipes = JSON.parse(localStorage.getItem("modalCard")) || []
 
 //This function adds recipes to recipe box
-function getSavedRecipes(){
+function getSavedRecipes() {
   //get recipe box by id
   //CLEAR OLD recipes recipeBox.innerHTML = ""
   //loop through saveRecipes
@@ -109,10 +109,10 @@ function saveRecipe(event) {
   }
   savedRecipes.push(recipeData)
 
-//This line of code adds selected recipe information to local storage
+  //This line of code adds selected recipe information to local storage
   localStorage.setItem("modalCard", JSON.stringify(savedRecipes))
   getSavedRecipes()
-  };
+};
 
 
 
@@ -140,7 +140,7 @@ $('#appear').on('click', function (event) {
   let userClick = event.target.nodeName;
   if (userClick === 'BUTTON') {
     let toBeRemoved = event.target.closest('#ingredient-card');
-    let text = toBeRemoved.textContent.trim().replace('Remove','').trim()
+    let text = toBeRemoved.textContent.trim().replace('Remove', '').trim()
     toBeRemoved.remove();
     if (searchArray.includes(text)) {
       let indexNumber = searchArray.indexOf(text);
@@ -198,7 +198,7 @@ $('#listSelection').on('change', function (event) {
 
 
 
-// {======= Get User Dropdown Selection =======}
+// {======= Modal / Card / Fun Fact =======}
 let searchBtnEl = $("#searchBtn");
 let infoBtnEl = $("#infoBtn");
 let userInputTextEl = $("#userInputText");
@@ -310,17 +310,13 @@ function getRecipeData(userInput, anArrayFromOptionalParams) {
         $("#cardsSection").append(appendedCard);
         $("#cardsSection").append(modalContent);
 
-          
-       //To add new more information from saved recipes to lacal storage, add additional unique "data-.." code
+
+        //To add new more information from saved recipes to lacal storage, add additional unique "data-.." code
 
 
 
 
 
-
-
-
-        
         // for appending ingredients list items
         ingredients.forEach((el) => {
           let target = $(`#${uniqueId}-modal .ingredientSection`);
@@ -394,11 +390,19 @@ searchBtnEl.on("click", function (evt) {
   getRecipeData(userinput, anArray);
 });
 
-// <------ Event Listener For Info Btn ------>
+// <------ Event Listener For Fun Fact Btn ------>
 infoBtnEl.on("click", function (evt) {
   evt.preventDefault();
 
   let userinput = getUserSelection();
   getCocktialDbData(userinput);
+  $("#funFactSection").addClass("is-active");
+})
 
+// <------ Event Listener For Closing Fun Fact ------>
+$("#funFactSection").on("click", "button", function (evt) {
+  evt.preventDefault();
+
+  $("#funFactSection").removeClass("is-active");
+  $("#funFactSection").text("");
 })
