@@ -95,15 +95,16 @@ $('#create-box-recipe').on('click', function createBoxRecipe() {
 
 })
 
-// this event listener removes the nearest ingredient card and removes the data from the ingredient card from the search-array
+// this event listener removes the nearest ingredient card and removes the data from the ingredient card from the search-array using the replace and trim functions to trim the string and the indexOf and splice to remove the element from the array
 $('#appear').on('click', function (event) {
   let userClick = event.target.nodeName;
   if (userClick === 'BUTTON') {
     let toBeRemoved = event.target.closest('#ingredient-card');
-    let text = toBeRemoved.textContent.trim().replace('Remove', '').trim()
+    let text = toBeRemoved.textContent.trim().replace('Remove','').trim()
     toBeRemoved.remove();
     if (searchArray.includes(text)) {
-      searchArray = searchArray.splice(text, '');
+      let indexNumber = searchArray.indexOf(text);
+      searchArray.splice(indexNumber, 1);
     } else {
       return
     }
@@ -115,7 +116,7 @@ $('#appear').on('click', function (event) {
 $('#recipe-box').on('click', function (event) {
   let userClick = event.target.nodeName;
   if (userClick === 'BUTTON') {
-    event.target.closest('#saved-recipe-card').remove()
+    event.target.closest('#saved-recipe-card').remove();
   }
   modalCommand()
 }
