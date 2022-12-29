@@ -401,16 +401,4 @@ infoBtnEl.on("click", function (evt) {
   let userinput = getUserSelection();
   getCocktialDbData(userinput);
 
-
-<<<<<<< HEAD
-=======
-  $("#funFactSection").addClass("is-active");
 })
-
-// <------ Event Listener For Fun Fact Close Btn ------>
-$("#funFactSection").on("click", "button", function (evt) {
-  evt.preventDefault();
-  $("#funFactSection").removeClass("is-active");
-  $("#funFactSection").text("");
-})
->>>>>>> origin/main
