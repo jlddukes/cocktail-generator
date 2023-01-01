@@ -80,6 +80,7 @@ function createModal() {
   $('main').append(modalCard)
 }
 
+// this function prints the items from local storage as clickable buttons
 function buttonPrint() {
   var savedRecipes = JSON.parse(localStorage.getItem("modalCard")) || []
   for (let i = 0; i < savedRecipes.length; i++) {
@@ -96,13 +97,18 @@ function buttonPrint() {
   }
 }
 
+// this function clears printed buttons from the recipe box
+function clearRecipeBox() {
+  var savedRecipes = JSON.parse(localStorage.getItem("modalCard")) || []
+  for (let i = 0; i < savedRecipes.length; i++) {
+    $('#saved-recipe-card').remove()
+  }
+}
+
 //THis function creates event when save button is clicked
 function saveRecipe(event) {
+  clearRecipeBox()
   var savedRecipes = JSON.parse(localStorage.getItem("modalCard")) || []
-  // event.preventDefault();
-  console.log("The button was clicked")
-  console.log(event.target);
-
   var recipeData = {
     name: event.target.dataset.name,
     id: event.target.dataset.id
