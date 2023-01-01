@@ -78,30 +78,30 @@ function createModal() {
         </div>
     </div >`
   $('main').append(modalCard)
-
-
 }
 
-
-
-var savedRecipes = JSON.parse(localStorage.getItem("modalCard")) || []
-
-//This function adds recipes to recipe box
-function getSavedRecipes() {
-  //get recipe box by id
-  //CLEAR OLD recipes recipeBox.innerHTML = ""
-  //loop through saveRecipes
-  //create element and put text (and maybe id) on single recipe row
-  //append to recipe box
+function buttonPrint() {
+  var savedRecipes = JSON.parse(localStorage.getItem("modalCard")) || []
+  for (let i = 0; i < savedRecipes.length; i++) {
+    let recipeBoxEl =
+    `
+  <div id="saved-recipe-card" class="panel-block is-flex is-justify-content-space-between is-align-content-center">
+    <div class="js-modal-trigger is-clickable" data-target="recipe-modal">
+      <p>` + savedRecipes[i].name + `</p>
+    </div>
+    <button class="button is-small" id="remove-saved-recipe">Remove</button>
+  </div>
+  `
+  $('#recipe-box').append(recipeBoxEl);
+  }
 }
-getSavedRecipes()
 
 //THis function creates event when save button is clicked
 function saveRecipe(event) {
+  var savedRecipes = JSON.parse(localStorage.getItem("modalCard")) || []
   // event.preventDefault();
   console.log("The button was clicked")
   console.log(event.target);
-
 
   var recipeData = {
     name: event.target.dataset.name,
@@ -111,29 +111,8 @@ function saveRecipe(event) {
 
   //This line of code adds selected recipe information to local storage
   localStorage.setItem("modalCard", JSON.stringify(savedRecipes))
-  getSavedRecipes()
+  buttonPrint();
 };
-
-
-
-
-
-
-
-// stand-in button and eventlistener that creates a new 'saved recipe'
-$('#create-box-recipe').on('click', function createBoxRecipe() {
-  let recipeBoxEl =
-    `
-  <div id="saved-recipe-card" class="panel-block is-flex is-justify-content-space-between is-align-content-center">
-    <div class="js-modal-trigger is-clickable" data-target="recipe-modal">
-      <p>Recipe</p>
-    </div>
-    <button class="button is-small" id="remove-saved-recipe">Remove</button>
-  </div>
-  `
-  $('#recipe-box').append(recipeBoxEl);
-
-})
 
 // this event listener removes the nearest ingredient card and removes the data from the ingredient card from the search-array using the replace and trim functions to trim the string and the indexOf and splice to remove the element from the array
 $('#appear').on('click', function (event) {
@@ -186,17 +165,6 @@ $('#listSelection').on('change', function (event) {
   }
 }
 )
-
-
-
-
-
-
-
-
-
-
-
 
 // {======= Modal / Card / Fun Fact =======}
 let searchBtnEl = $("#searchBtn");
