@@ -55,31 +55,31 @@ function modalCommand() {
 modalCommand()
 
 // creates modal dom
-// function createModal() {
-//   let modalCard = `
-//     <div id = "recipe-modal" class= "modal">
-//       <div class="modal-background"></div>
-//         <div class="modal-content">
-//             <div class="box">
-//                 <div class="box">
-//                     <p class="is-size-4 has-text-weight-medium">Ingredients</p>
-//                     <li>1.5 oz Bourbon</li>
-//                     <li>.5 oz Bourbon</li>
-//                     <li>5 Dashes Bitters</li>
-//                 </div>
-//                 <div class="box">
-//                     <p class="is-size-4 has-text-weight-medium">Recipe</p>
-//                     <p>Pour all ingredients into a glass and stir.</p>
-//                 </div>
-//                 <div class="is-flex is-justify-content-space-between">
-//                     <button class="button is-danger" id="back-button">Back</button>
-//                     <button class="button is-link" id="save-button">Save</button>
-//                 </div>
-//             </div>
-//         </div>
-//     </div >`
-//   $('main').append(modalCard)
-// }
+function createModal() {
+  let modalCard = `
+    <div id = "recipe-modal" class= "modal">
+      <div class="modal-background"></div>
+        <div class="modal-content">
+            <div class="box">
+                <div class="box">
+                    <p class="is-size-4 has-text-weight-medium">Ingredients</p>
+                    <li>1.5 oz Bourbon</li>
+                    <li>.5 oz Bourbon</li>
+                    <li>5 Dashes Bitters</li>
+                </div>
+                <div class="box">
+                    <p class="is-size-4 has-text-weight-medium">Recipe</p>
+                    <p>Pour all ingredients into a glass and stir.</p>
+                </div>
+                <div class="is-flex is-justify-content-space-between">
+                    <button class="button is-danger" id="back-button">Back</button>
+                    <button class="button is-link" id="save-button">Save</button>
+                </div>
+            </div>
+        </div>
+    </div >`
+  $('main').append(modalCard)
+}
 
 // this function prints the items from local storage as clickable buttons
 function buttonPrint() {
@@ -106,15 +106,16 @@ function clearRecipeBox() {
   }
 }
 
-//THis function creates event when save button is clicked
+// this function is executed with the saveme button is clicked and saves items to local storage
 function saveRecipe(event) {
   clearRecipeBox()
   var savedRecipes = JSON.parse(localStorage.getItem("modalCard")) || []
+  console.log(event.target.dataset.ingredients)
   var recipeData = {
     name: event.target.dataset.name,
     id: event.target.dataset.id
   }
-  savedRecipes.push(recipeData)
+  savedRecipes.unshift(recipeData)
 
   //This line of code adds selected recipe information to local storage
   localStorage.setItem("modalCard", JSON.stringify(savedRecipes))
@@ -246,6 +247,7 @@ function getRecipeData(userInput, anArrayFromOptionalParams) {
         let trimTitle = (fullTitle.length >= 26) ? `${fullTitle.substring(0, 20)}...` : fullTitle;
         let uniqueId = element.recipe.uri.split("_")[1];
         let ingredients = element.recipe.ingredients;
+        console.log(ingredients)
 
         let appendedCard =
           `
@@ -285,7 +287,7 @@ function getRecipeData(userInput, anArrayFromOptionalParams) {
                   </section>
                   <div class="is-flex is-justify-content-space-between">
                       <button class="button is-danger">Back</button>
-                      <button onclick="saveRecipe(event)" data-id= "${uniqueId}" data-name="${fullTitle}" class="button is-link">Save Me!</button>
+                      <button onclick="saveRecipe(event)" data-id= "${uniqueId}" data-name="${fullTitle}" class="button is-link">Save</button>
                   </div>
               </div>
             </div>
@@ -296,9 +298,6 @@ function getRecipeData(userInput, anArrayFromOptionalParams) {
 
 
         //To add new more information from saved recipes to lacal storage, add additional unique "data-.." code
-
-
-
 
 
         // for appending ingredients list items
