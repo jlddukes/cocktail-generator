@@ -1,8 +1,9 @@
 let searchArray = []
+buttonPrint()
 
 // modal code
 function modalCommand() {
-  createModal()
+  // createModal()
   // Functions to open and close a modal
   function openModal($el) {
     $el.classList.add('is-active');
@@ -54,38 +55,38 @@ function modalCommand() {
 modalCommand()
 
 // creates modal dom
-function createModal() {
-  let modalCard = `
-    <div id = "recipe-modal" class= "modal">
-      <div class="modal-background"></div>
-        <div class="modal-content">
-            <div class="box">
-                <div class="box">
-                    <p class="is-size-4 has-text-weight-medium">Ingredients</p>
-                    <li>1.5 oz Bourbon</li>
-                    <li>.5 oz Bourbon</li>
-                    <li>5 Dashes Bitters</li>
-                </div>
-                <div class="box">
-                    <p class="is-size-4 has-text-weight-medium">Recipe</p>
-                    <p>Pour all ingredients into a glass and stir.</p>
-                </div>
-                <div class="is-flex is-justify-content-space-between">
-                    <button class="button is-danger" id="back-button">Back</button>
-                    <button class="button is-link" id="save-button">Save</button>
-                </div>
-            </div>
-        </div>
-    </div >`
-  $('main').append(modalCard)
-}
+// function createModal() {
+//   let modalCard = `
+//     <div id = "recipe-modal" class= "modal">
+//       <div class="modal-background"></div>
+//         <div class="modal-content">
+//             <div class="box">
+//                 <div class="box">
+//                     <p class="is-size-4 has-text-weight-medium">Ingredients</p>
+//                     <li>1.5 oz Bourbon</li>
+//                     <li>.5 oz Bourbon</li>
+//                     <li>5 Dashes Bitters</li>
+//                 </div>
+//                 <div class="box">
+//                     <p class="is-size-4 has-text-weight-medium">Recipe</p>
+//                     <p>Pour all ingredients into a glass and stir.</p>
+//                 </div>
+//                 <div class="is-flex is-justify-content-space-between">
+//                     <button class="button is-danger" id="back-button">Back</button>
+//                     <button class="button is-link" id="save-button">Save</button>
+//                 </div>
+//             </div>
+//         </div>
+//     </div >`
+//   $('main').append(modalCard)
+// }
 
 // this function prints the items from local storage as clickable buttons
 function buttonPrint() {
   var savedRecipes = JSON.parse(localStorage.getItem("modalCard")) || []
   for (let i = 0; i < savedRecipes.length; i++) {
     let recipeBoxEl =
-    `
+      `
   <div id="saved-recipe-card" class="panel-block is-flex is-justify-content-space-between is-align-content-center">
     <div class="js-modal-trigger is-clickable" data-target="recipe-modal">
       <p>` + savedRecipes[i].name + `</p>
@@ -93,7 +94,7 @@ function buttonPrint() {
     <button class="button is-small" id="remove-saved-recipe">Remove</button>
   </div>
   `
-  $('#recipe-box').append(recipeBoxEl);
+    $('#recipe-box').append(recipeBoxEl);
   }
 }
 
@@ -141,7 +142,16 @@ $('#appear').on('click', function (event) {
 $('#recipe-box').on('click', function (event) {
   let userClick = event.target.nodeName;
   if (userClick === 'BUTTON') {
-    event.target.closest('#saved-recipe-card').remove();
+    let toBeRemoved = event.target.closest('#saved-recipe-card')
+    let text = toBeRemoved.textContent.trim().replace('Remove', '').trim()
+    toBeRemoved.remove();
+    var savedRecipes = JSON.parse(localStorage.getItem("modalCard")) || []
+    for (let i = 0; i < savedRecipes.length; i++) {
+      if (savedRecipes[i].name == text) {
+        savedRecipes.splice(i, 1)
+      }
+    }
+    localStorage.setItem("modalCard", JSON.stringify(savedRecipes))
   }
   modalCommand()
 }
