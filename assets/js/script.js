@@ -1,5 +1,5 @@
 let searchArray = []
-buttonPrint()
+
 
 // modal code
 // function modalCommand() {
@@ -81,7 +81,7 @@ function createModal() {
   $('main').append(modalCard)
 }
 
-// this function prints the items from local storage as clickable buttons
+// this function prints the items from local storage as clickable buttons and appends a modal that fetches the recipe data by id
 function buttonPrint() {
   var savedRecipes = JSON.parse(localStorage.getItem("modalCard")) || []
   for (let i = 0; i < savedRecipes.length; i++) {
@@ -89,14 +89,89 @@ function buttonPrint() {
     let name = savedRecipes[i].name;
     let recipeBoxEl =
       `
-  <div id="saved-recipe-card" class="panel-block is-flex is-justify-content-space-between is-align-content-center">
-    <div class="js-modal-trigger is-clickable" data-target="recipe-modal">
-      <p onclick="getSavedRecipeData(event)" data-id="${uniqueId}" data-name="${name}">${name}</p>
-    </div>
-    <button class="button is-small" id="remove-saved-recipe">Remove</button>
-  </div>
-  `
-    $('#recipe-box').append(recipeBoxEl);
+      <div id="${uniqueId}-box">
+        <div class="panel-block is-flex is-justify-content-space-between is-align-content-center">
+          <div class="js-modal-trigger is-clickable" data-target="recipe-modal">
+            <p data-id="${uniqueId}" data-name="${name}">${name}</p>
+          </div>
+          <button class="button is-small" id="remove-saved-recipe">Remove</button>
+        </div>
+      </div>
+      `
+
+
+    let urlApiEndpoint = "https://api.edamam.com/api/recipes/v2/";
+    let urlApi = `${urlApiEndpoint}${uniqueId}?type=public&app_id=${api_id}&app_key=${api_key}&field=ingredients&field=calories&field=label`
+
+    fetch(urlApi)
+      .then((response) => { return response.json() })
+      .then((data) => {
+        let calories = data.recipe.calories;
+        let fullTitle = name;
+        let ingredients = data.recipe.ingredients;
+
+        let modalContent =
+          `
+          <div class="modal" id="${uniqueId}-modal">
+            <div class="modal-background"></div>
+            <div class="modal-content">
+              <div class="box">
+                  <section class="box fullTitleSection">
+                  <p class="is-size-4 has-text-weight-medium">Title</p>
+                  <p>${fullTitle}</p>
+                  </section>
+                  <section class="box ingredientSection">
+                      <p class="is-size-4 has-text-weight-medium">Ingredients</p>
+                  </section>
+                  <section class="box recipeSection">
+                      <p class="is-size-4 has-text-weight-medium">Calories</p>
+                      <p>${calories}</p>
+                  </section>
+                  <div class="is-flex is-justify-content-space-between">
+                      <button class="button is-danger">Back</button>
+                  </div>
+              </div>
+            </div>
+          </div>`;
+
+        $('#recipe-box').append(recipeBoxEl);
+        $('#recipe-box').append(modalContent);
+
+        // for appending ingredients list items
+        ingredients.forEach((el) => {
+          let target = $(`#${uniqueId}-modal .ingredientSection`);
+          let listItem = `<li>${el.text}</li>`;
+          target.append(listItem);
+        });
+
+
+        // for opening modal
+        $(`#${uniqueId}-box`).on("click", function (evt) {
+          let userClick = evt.target.nodeName;
+          if (userClick !== 'BUTTON') {
+            evt.preventDefault();
+            let target = $(this).next(".modal");
+            target.addClass("is-active");
+          }
+        })
+
+        // for closing modal
+        $(`#${uniqueId}-modal`).on("click", ".is-danger", function (evt) {
+          evt.preventDefault();
+          let target = $(this).parents(".modal").first();
+          target.removeClass("is-active");
+        })
+
+        (document.querySelectorAll('.modal-background, .modal-close, .modal-card-head .delete, .modal-card-foot .button') || []).forEach(($close) => {
+          const $target = $close.closest('.modal');
+
+          $close.addEventListener('click', () => {
+            $target.classList.remove('is-active')
+          });
+        });
+
+      }
+      )
   }
 }
 
@@ -104,7 +179,7 @@ function buttonPrint() {
 function clearRecipeBox() {
   var savedRecipes = JSON.parse(localStorage.getItem("modalCard")) || []
   for (let i = 0; i < savedRecipes.length; i++) {
-    $('#saved-recipe-card').remove()
+    $('DIV').remove()
   }
 }
 
@@ -144,7 +219,7 @@ $('#appear').on('click', function (event) {
 $('#recipe-box').on('click', function (event) {
   let userClick = event.target.nodeName;
   if (userClick === 'BUTTON') {
-    let toBeRemoved = event.target.closest('#saved-recipe-card')
+    let toBeRemoved = event.target.closest('DIV')
     let text = toBeRemoved.textContent.trim().replace('Remove', '').trim()
     toBeRemoved.remove();
     var savedRecipes = JSON.parse(localStorage.getItem("modalCard")) || []
@@ -192,6 +267,7 @@ let userInputTextEl = $("#userInputText");
 let userSelectionEl = $("#listSelection");
 let api_id = "05349be7";
 let api_key = "302d463311eb7ca81f0fd2dcae2aa923";
+buttonPrint()
 
 // <------ Get User Dropdown Selection ------>
 function getUserSelection() {
@@ -312,7 +388,7 @@ function getRecipeData(userInput, anArrayFromOptionalParams) {
         // for opening modal
         $(`#${uniqueId}-card`).on("click", function (evt) {
           evt.preventDefault();
-          let target = $(this).next(".modal")
+          let target = $(this).next(".modal");
           target.addClass("is-active");
         })
 
@@ -329,71 +405,71 @@ function getRecipeData(userInput, anArrayFromOptionalParams) {
 
 
 // <------ saved recipe box fetch API using UniqueID & Create Modal ------>
-function getSavedRecipeData(event) {
-  let id = event.target.dataset.id;
-  let name = event.target.dataset.name;
-  let urlApiEndpoint = "https://api.edamam.com/api/recipes/v2/";
-  let urlApi = `${urlApiEndpoint}${id}?type=public&app_id=${api_id}&app_key=${api_key}&field=ingredients&field=calories&field=label`
+// function getSavedRecipeData(event) {
+//   let id = event.target.dataset.id;
+//   let name = event.target.dataset.name;
+//   let urlApiEndpoint = "https://api.edamam.com/api/recipes/v2/";
+//   let urlApi = `${urlApiEndpoint}${id}?type=public&app_id=${api_id}&app_key=${api_key}&field=ingredients&field=calories&field=label`
 
-  fetch(urlApi)
-    .then((response) => { return response.json() })
-    .then((data) => {
-      let calories = data.recipe.calories;
-      let fullTitle = name;
-      let uniqueId = id;
-      let ingredients = data.recipe.ingredients;
+//   fetch(urlApi)
+//     .then((response) => { return response.json() })
+//     .then((data) => {
+//       let calories = data.recipe.calories;
+//       let fullTitle = name;
+//       let uniqueId = id;
+//       let ingredients = data.recipe.ingredients;
 
-      let modalContent =
-        `
-          <div class="modal" id="${uniqueId}-modal">
-            <div class="modal-background"></div>
-            <div class="modal-content">
-              <div class="box">
-                  <section class="box fullTitleSection">
-                  <p class="is-size-4 has-text-weight-medium">Title</p>
-                  <p>${fullTitle}</p>
-                  </section>
-                  <section class="box ingredientSection">
-                      <p class="is-size-4 has-text-weight-medium">Ingredients</p>
-                  </section>
-                  <section class="box recipeSection">
-                      <p class="is-size-4 has-text-weight-medium">Calories</p>
-                      <p>${calories}</p>
-                  </section>
-                  <div class="is-flex is-justify-content-space-between">
-                      <button class="button is-danger">Back</button>
-                      <button onclick="saveRecipe(event)" data-id= "${uniqueId}" data-name="${fullTitle}" class="button is-link">Save</button>
-                  </div>
-              </div>
-            </div>
-          </div>`;
+//       let modalContent =
+//         `
+//         <div class="modal" id="${uniqueId}-modal">
+//           <div class="modal-background"></div>
+//           <div class="modal-content">
+//             <div class="box">
+//                 <section class="box fullTitleSection">
+//                 <p class="is-size-4 has-text-weight-medium">Title</p>
+//                 <p>${fullTitle}</p>
+//                 </section>
+//                 <section class="box ingredientSection">
+//                     <p class="is-size-4 has-text-weight-medium">Ingredients</p>
+//                 </section>
+//                 <section class="box recipeSection">
+//                     <p class="is-size-4 has-text-weight-medium">Calories</p>
+//                     <p>${calories}</p>
+//                 </section>
+//                 <div class="is-flex is-justify-content-space-between">
+//                     <button class="button is-danger">Back</button>
+//                     <button onclick="saveRecipe(event)" data-id= "${uniqueId}" data-name="${fullTitle}" class="button is-link">Save</button>
+//                 </div>
+//             </div>
+//           </div>
+//         </div>`;
 
-      $("#cardsSection").append(modalContent);
+//       $("#cardsSection").append(modalContent);
 
-      // for appending ingredients list items
-      ingredients.forEach((el) => {
-        let target = $(`#${uniqueId}-modal .ingredientSection`);
-        let listItem = `<li>${el.text}</li>`;
-        target.append(listItem);
-      });
+//       // for appending ingredients list items
+//       ingredients.forEach((el) => {
+//         let target = $(`#${uniqueId}-modal .ingredientSection`);
+//         let listItem = `<li>${el.text}</li>`;
+//         target.append(listItem);
+//       });
 
 
-      // for opening modal
-      $(`#${uniqueId}-card`).on("click", function (evt) {
-        evt.preventDefault();
-        let target = $(this).next(".modal")
-        target.addClass("is-active");
-      })
+//       // for opening modal
+//       $(`#${uniqueId}-box`).on("click", function (evt) {
+//         evt.preventDefault();
+//         let target = $(this).next(".modal")
+//         target.addClass("is-active");
+//       })
 
-      // for closing modal
-      $(`#${uniqueId}-modal`).on("click", ".is-danger", function (evt) {
-        evt.preventDefault();
+//       // for closing modal
+//       $(`#${uniqueId}-modal`).on("click", ".is-danger", function (evt) {
+//         evt.preventDefault();
 
-        let target = $(this).parents(".modal").first();
-        target.removeClass("is-active");
-      })
-    })
-}
+//         let target = $(this).parents(".modal").first();
+//         target.removeClass("is-active");
+//       })
+//     })
+// }
 
 // <------ Fetch API & Create Fun Facts By Ingredients Name ------>
 function getCocktialDbData(userInput) {
