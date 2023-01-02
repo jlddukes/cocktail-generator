@@ -2,57 +2,57 @@ let searchArray = []
 buttonPrint()
 
 // modal code
-function modalCommand() {
-  // createModal()
-  // Functions to open and close a modal
-  function openModal($el) {
-    $el.classList.add('is-active');
-  }
+// function modalCommand() {
+//   // createModal()
+//   // Functions to open and close a modal
+//   function openModal($el) {
+//     $el.classList.add('is-active');
+//   }
 
-  function closeModal($el) {
-    $el.classList.remove('is-active');
-  }
+//   function closeModal($el) {
+//     $el.classList.remove('is-active');
+//   }
 
-  function closeAllModals() {
-    (document.querySelectorAll('.modal') || []).forEach(($modal) => {
-      closeModal($modal);
-    });
-  }
+//   function closeAllModals() {
+//     (document.querySelectorAll('.modal') || []).forEach(($modal) => {
+//       closeModal($modal);
+//     });
+//   }
 
-  // Add a click event on buttons to open a specific modal
-  (document.querySelectorAll('.js-modal-trigger') || []).forEach(($trigger) => {
-    const modal = $trigger.dataset.target;
-    const $target = document.getElementById(modal);
+//   // Add a click event on buttons to open a specific modal
+//   (document.querySelectorAll('.js-modal-trigger') || []).forEach(($trigger) => {
+//     const modal = $trigger.dataset.target;
+//     const $target = document.getElementById(modal);
 
-    $trigger.addEventListener('click', () => {
-      openModal($target);
-    });
-  });
+//     $trigger.addEventListener('click', () => {
+//       openModal($target);
+//     });
+//   });
 
-  // Add a click event on various child elements to close the parent modal
-  (document.querySelectorAll('.modal-background, .modal-close, .modal-card-head .delete, .modal-card-foot .button') || []).forEach(($close) => {
-    const $target = $close.closest('.modal');
+//   // Add a click event on various child elements to close the parent modal
+//   (document.querySelectorAll('.modal-background, .modal-close, .modal-card-head .delete, .modal-card-foot .button') || []).forEach(($close) => {
+//     const $target = $close.closest('.modal');
 
-    $close.addEventListener('click', () => {
-      closeModal($target);
-    });
-  });
+//     $close.addEventListener('click', () => {
+//       closeModal($target);
+//     });
+//   });
 
-  // Add a keyboard event to close all modals
-  document.addEventListener('keydown', (event) => {
-    const e = event || window.event;
+//   // Add a keyboard event to close all modals
+//   document.addEventListener('keydown', (event) => {
+//     const e = event || window.event;
 
-    if (e.keyCode === 27) { // Escape key
-      closeAllModals();
-    }
-  });
+//     if (e.keyCode === 27) { // Escape key
+//       closeAllModals();
+//     }
+//   });
 
-  // back button closes modal
-  $('#back-button').on('click', (event) => {
-    closeAllModals();
-  });
-}
-modalCommand()
+//   // back button closes modal
+//   $('#back-button').on('click', (event) => {
+//     closeAllModals();
+//   });
+// }
+// modalCommand()
 
 // creates modal dom
 function createModal() {
@@ -85,11 +85,13 @@ function createModal() {
 function buttonPrint() {
   var savedRecipes = JSON.parse(localStorage.getItem("modalCard")) || []
   for (let i = 0; i < savedRecipes.length; i++) {
+    let uniqueId = savedRecipes[i].id;
+    let name = savedRecipes[i].name;
     let recipeBoxEl =
       `
   <div id="saved-recipe-card" class="panel-block is-flex is-justify-content-space-between is-align-content-center">
     <div class="js-modal-trigger is-clickable" data-target="recipe-modal">
-      <p>` + savedRecipes[i].name + `</p>
+      <p onclick="getSavedRecipeData(event)" data-id="${uniqueId}" data-name="${name}">${name}</p>
     </div>
     <button class="button is-small" id="remove-saved-recipe">Remove</button>
   </div>
@@ -110,7 +112,6 @@ function clearRecipeBox() {
 function saveRecipe(event) {
   clearRecipeBox()
   var savedRecipes = JSON.parse(localStorage.getItem("modalCard")) || []
-  console.log(event.target.dataset.ingredients)
   var recipeData = {
     name: event.target.dataset.name,
     id: event.target.dataset.id
@@ -154,7 +155,8 @@ $('#recipe-box').on('click', function (event) {
     }
     localStorage.setItem("modalCard", JSON.stringify(savedRecipes))
   }
-  modalCommand()
+  // modalCommand()
+
 }
 )
 
@@ -247,7 +249,6 @@ function getRecipeData(userInput, anArrayFromOptionalParams) {
         let trimTitle = (fullTitle.length >= 26) ? `${fullTitle.substring(0, 20)}...` : fullTitle;
         let uniqueId = element.recipe.uri.split("_")[1];
         let ingredients = element.recipe.ingredients;
-        console.log(ingredients)
 
         let appendedCard =
           `
@@ -311,7 +312,6 @@ function getRecipeData(userInput, anArrayFromOptionalParams) {
         // for opening modal
         $(`#${uniqueId}-card`).on("click", function (evt) {
           evt.preventDefault();
-
           let target = $(this).next(".modal")
           target.addClass("is-active");
         })
@@ -323,10 +323,77 @@ function getRecipeData(userInput, anArrayFromOptionalParams) {
           let target = $(this).parents(".modal").first();
           target.removeClass("is-active");
         })
-
       });
     })
 };
+
+
+// <------ saved recipe box fetch API using UniqueID & Create Modal ------>
+function getSavedRecipeData(event) {
+  let id = event.target.dataset.id;
+  let name = event.target.dataset.name;
+  let urlApiEndpoint = "https://api.edamam.com/api/recipes/v2/";
+  let urlApi = `${urlApiEndpoint}${id}?type=public&app_id=${api_id}&app_key=${api_key}&field=ingredients&field=calories&field=label`
+
+  fetch(urlApi)
+    .then((response) => { return response.json() })
+    .then((data) => {
+      let calories = data.recipe.calories;
+      let fullTitle = name;
+      let uniqueId = id;
+      let ingredients = data.recipe.ingredients;
+
+      let modalContent =
+        `
+          <div class="modal" id="${uniqueId}-modal">
+            <div class="modal-background"></div>
+            <div class="modal-content">
+              <div class="box">
+                  <section class="box fullTitleSection">
+                  <p class="is-size-4 has-text-weight-medium">Title</p>
+                  <p>${fullTitle}</p>
+                  </section>
+                  <section class="box ingredientSection">
+                      <p class="is-size-4 has-text-weight-medium">Ingredients</p>
+                  </section>
+                  <section class="box recipeSection">
+                      <p class="is-size-4 has-text-weight-medium">Calories</p>
+                      <p>${calories}</p>
+                  </section>
+                  <div class="is-flex is-justify-content-space-between">
+                      <button class="button is-danger">Back</button>
+                      <button onclick="saveRecipe(event)" data-id= "${uniqueId}" data-name="${fullTitle}" class="button is-link">Save</button>
+                  </div>
+              </div>
+            </div>
+          </div>`;
+
+      $("#cardsSection").append(modalContent);
+
+      // for appending ingredients list items
+      ingredients.forEach((el) => {
+        let target = $(`#${uniqueId}-modal .ingredientSection`);
+        let listItem = `<li>${el.text}</li>`;
+        target.append(listItem);
+      });
+
+
+      // for opening modal
+      $(`#${uniqueId}-card`).on("click", function (evt) {
+        evt.preventDefault();
+        let target = $(this).next(".modal")
+        target.addClass("is-active");
+      })
+
+      // for closing modal
+      $(`#${uniqueId}-modal`).on("click", ".is-danger", function (evt) {
+        evt.preventDefault();
+
+        let target = $(this).parents(".modal").first();
+        target.removeClass("is-active");
+      })
+    })
+}
 
 // <------ Fetch API & Create Fun Facts By Ingredients Name ------>
 function getCocktialDbData(userInput) {
