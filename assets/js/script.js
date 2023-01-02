@@ -1,6 +1,5 @@
 let searchArray = []
 
-
 // modal code
 // function modalCommand() {
 //   // createModal()
@@ -403,73 +402,6 @@ function getRecipeData(userInput, anArrayFromOptionalParams) {
     })
 };
 
-
-// <------ saved recipe box fetch API using UniqueID & Create Modal ------>
-// function getSavedRecipeData(event) {
-//   let id = event.target.dataset.id;
-//   let name = event.target.dataset.name;
-//   let urlApiEndpoint = "https://api.edamam.com/api/recipes/v2/";
-//   let urlApi = `${urlApiEndpoint}${id}?type=public&app_id=${api_id}&app_key=${api_key}&field=ingredients&field=calories&field=label`
-
-//   fetch(urlApi)
-//     .then((response) => { return response.json() })
-//     .then((data) => {
-//       let calories = data.recipe.calories;
-//       let fullTitle = name;
-//       let uniqueId = id;
-//       let ingredients = data.recipe.ingredients;
-
-//       let modalContent =
-//         `
-//         <div class="modal" id="${uniqueId}-modal">
-//           <div class="modal-background"></div>
-//           <div class="modal-content">
-//             <div class="box">
-//                 <section class="box fullTitleSection">
-//                 <p class="is-size-4 has-text-weight-medium">Title</p>
-//                 <p>${fullTitle}</p>
-//                 </section>
-//                 <section class="box ingredientSection">
-//                     <p class="is-size-4 has-text-weight-medium">Ingredients</p>
-//                 </section>
-//                 <section class="box recipeSection">
-//                     <p class="is-size-4 has-text-weight-medium">Calories</p>
-//                     <p>${calories}</p>
-//                 </section>
-//                 <div class="is-flex is-justify-content-space-between">
-//                     <button class="button is-danger">Back</button>
-//                     <button onclick="saveRecipe(event)" data-id= "${uniqueId}" data-name="${fullTitle}" class="button is-link">Save</button>
-//                 </div>
-//             </div>
-//           </div>
-//         </div>`;
-
-//       $("#cardsSection").append(modalContent);
-
-//       // for appending ingredients list items
-//       ingredients.forEach((el) => {
-//         let target = $(`#${uniqueId}-modal .ingredientSection`);
-//         let listItem = `<li>${el.text}</li>`;
-//         target.append(listItem);
-//       });
-
-
-//       // for opening modal
-//       $(`#${uniqueId}-box`).on("click", function (evt) {
-//         evt.preventDefault();
-//         let target = $(this).next(".modal")
-//         target.addClass("is-active");
-//       })
-
-//       // for closing modal
-//       $(`#${uniqueId}-modal`).on("click", ".is-danger", function (evt) {
-//         evt.preventDefault();
-
-//         let target = $(this).parents(".modal").first();
-//         target.removeClass("is-active");
-//       })
-//     })
-// }
 
 // <------ Fetch API & Create Fun Facts By Ingredients Name ------>
 function getCocktialDbData(userInput) {
