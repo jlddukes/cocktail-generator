@@ -161,13 +161,13 @@ function buttonPrint() {
           target.removeClass("is-active");
         })
 
-        (document.querySelectorAll('.modal-background, .modal-close, .modal-card-head .delete, .modal-card-foot .button') || []).forEach(($close) => {
-          const $target = $close.closest('.modal');
+          (document.querySelectorAll('.modal-background, .modal-close, .modal-card-head .delete, .modal-card-foot .button') || []).forEach(($close) => {
+            const $target = $close.closest('.modal');
 
-          $close.addEventListener('click', () => {
-            $target.classList.remove('is-active')
+            $close.addEventListener('click', () => {
+              $target.classList.remove('is-active')
+            });
           });
-        });
 
       }
       )
@@ -271,7 +271,8 @@ buttonPrint()
 // <------ Get User Dropdown Selection ------>
 function getUserSelection() {
   let keyword = userSelectionEl.val();
-  let trimKeyword = keyword.split(" ").join("");
+  // URL encoding normally replaces a space with a plus (+) sign or with %20
+  let trimKeyword = keyword.split(" ").join("%20");
 
   return trimKeyword;
 };
@@ -324,6 +325,7 @@ function getRecipeData(userInput, anArrayFromOptionalParams) {
         let trimTitle = (fullTitle.length >= 26) ? `${fullTitle.substring(0, 20)}...` : fullTitle;
         let uniqueId = element.recipe.uri.split("_")[1];
         let ingredients = element.recipe.ingredients;
+        let thumbnail = element.recipe.images.THUMBNAIL.url;
 
         let appendedCard =
           `
@@ -350,7 +352,7 @@ function getRecipeData(userInput, anArrayFromOptionalParams) {
             <div class="modal-background"></div>
             <div class="modal-content">
               <div class="box">
-                  <section class="box fullTitleSection">
+                  <section class="box fullTitleSection" style="background-image:url(${thumbnail});background-repeat:no-repeat;background-position:right 10px top 0;">
                   <p class="is-size-4 has-text-weight-medium">Title</p>
                   <p>${fullTitle}</p>
                   </section>
@@ -411,28 +413,34 @@ function getCocktialDbData(userInput) {
   fetch(urlApi)
     .then(res => { return res.json() })
     .then(data => {
-      console.log(data);
+      // console.log(data);
+      // console.log(urlApi);
 
-      let funFact = data.ingredients[0].strDescription;
+      // Some data cannot be found in TheCockTailDb Api, so the following is some code for error handling...
+      let funFactTitle = (data.ingredients) ? data.ingredients[0].strIngredient : ("Canot found the ingredient.");
+      if (data.ingredients) {
+        var funFactDes = (data.ingredients[0].strDescription) ? data.ingredients[0].strDescription : ("No further info in TheCocktailDb Api");
+      }
+
       let modalContent =
         `
       <div class="modal-background"></div>
       <div class="modal-card">
           <header class="modal-card-head">
-              <p class="modal-card-title">${userInput}</p>
+              <p class="modal-card-title">${funFactTitle}</p>
               <button class="delete" aria-label="close"></button>
           </header>
           <section class="modal-card-body">
-              ${funFact}
+              ${funFactDes}
           </section>
           <footer class="modal-card-foot">
-              Fun Fact From CocktialDB
+              <a href="https://www.thecocktaildb.com/api.php" target="_blank">
+              Fun Fact From TheCocktialDB
+              </a> 
           </footer>
       </div>`;
 
       $("#funFactSection").append(modalContent);
-
-      // console.log(funFact);
     }
     )
 }

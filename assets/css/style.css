@@ -1,0 +1,24 @@
+#panelHeading {
+    position: relative;
+}
+
+#infoBtn {
+    position: absolute;
+    right: 5px;
+    top: 0;
+    bottom: 0;
+    margin: auto 0;
+}
+
+#optionalParams {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+#optionalParams .column {
+    margin: 0 auto;
+    border: 1px solid black;
+    border-radius: 50%;
+    background-color: lightgrey;
+}
