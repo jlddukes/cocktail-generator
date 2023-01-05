@@ -59,6 +59,7 @@ function buttonPrint() {
                       <p>${calories}</p>
                   </section>
                   <div class="is-flex is-justify-content-space-between">
+                  <button class="button is-danger">Back</button>
                   </div>
               </div>
             </div>
