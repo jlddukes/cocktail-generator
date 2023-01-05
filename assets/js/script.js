@@ -38,7 +38,7 @@ function buttonPrint() {
     fetch(urlApi)
       .then((response) => { return response.json() })
       .then((data) => {
-        let calories = data.recipe.calories;
+        let calories = Math.round(data.recipe.calories);
         let fullTitle = name;
         let ingredients = data.recipe.ingredients;
         let modalContent =
@@ -84,16 +84,13 @@ function buttonPrint() {
           }
         })
 
-        // for closing modal by clicking outside modal on parent elements or back button
-        function closeModal($el) {
-          $el.classList.remove('is-active');
-        }
-        (document.querySelectorAll('.modal-background, .button') || []).forEach(($close) => {
-          const $target = $close.closest('.modal');
-          $close.addEventListener('click', () => {
-            closeModal($target);
-          });
-        });
+        // for closing modal
+        $(`#${uniqueId}-modal`).on("click", ".is-danger", function (evt) {
+          evt.preventDefault();
+
+          let target = $(this).parents(".modal").first();
+          target.removeClass("is-active");
+        })
 
       }
       )
@@ -234,7 +231,7 @@ function getRecipeData(userInput, anArrayFromOptionalParams) {
       let top8Data = data.hits.slice(0, 8);
 
       top8Data.forEach(element => {
-        let calories = element.recipe.calories;
+        let calories = Math.round(element.recipe.calories);
         let images = element.recipe.images.SMALL.url;
         let fullTitle = element.recipe.label;
         let trimTitle = (fullTitle.length >= 26) ? `${fullTitle.substring(0, 20)}...` : fullTitle;
