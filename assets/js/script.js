@@ -1,5 +1,5 @@
 // [{===========================================================================================================================================================================================================================================================================================}]
-// [{============== Important Note: The API that this project utilizes is limited to 10 API calls per hour with the free-version. When those calls have been used up, the page behaves poorly. In a real-life scenario this project would use a paid version of this API. ======================}]
+// [{============== Important Note: The API that this project utilizes is limited to 10 API calls per hour with the free-version. When those calls have been used up, the page behaves unpredictably. In a real-life scenario this project would use a paid version of this API. ======================}]
 // [{===========================================================================================================================================================================================================================================================================================}]
 
 // {======= Variables and Functions Executed on Load =======}
@@ -85,14 +85,7 @@ function buttonPrint() {
           }
         })
 
-        // for closing modal with back button
-        $(`#${uniqueId}-modal`).on("click", ".is-danger", function (evt) {
-          evt.preventDefault();
-          let target = $(this).parents(".modal").first();
-          target.removeClass("is-active");
-        })
-
-        // for closing modal by clicking outside modal on parent elements
+        // for closing modal by clicking outside modal on parent elements or back button
         function closeModal($el) {
           $el.classList.remove('is-active');
         }
