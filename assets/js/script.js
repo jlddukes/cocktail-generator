@@ -310,6 +310,10 @@ function getRecipeData(userInput, anArrayFromOptionalParams) {
     urlApi += lastArrayEl;
   };
 
+  // dsiable search button (prevent from double clicking & calling api multiple times)
+  // will enable again at the end
+  searchBtnEl.prop("disabled", true);
+
   fetch(urlApi)
     .then((response) => { return response.json() })
     .then((data) => {
@@ -346,6 +350,8 @@ function getRecipeData(userInput, anArrayFromOptionalParams) {
             </div>
           </div>`;
 
+
+        //To add new more information from saved recipes to lacal storage, add additional unique "data-.." code
         let modalContent =
           `
           <div class="modal" id="${uniqueId}-modal">
@@ -374,10 +380,6 @@ function getRecipeData(userInput, anArrayFromOptionalParams) {
         $("#cardsSection").append(appendedCard);
         $("#cardsSection").append(modalContent);
 
-
-        //To add new more information from saved recipes to lacal storage, add additional unique "data-.." code
-
-
         // for appending ingredients list items
         ingredients.forEach((el) => {
           let target = $(`#${uniqueId}-modal .ingredientSection`);
@@ -400,6 +402,9 @@ function getRecipeData(userInput, anArrayFromOptionalParams) {
           let target = $(this).parents(".modal").first();
           target.removeClass("is-active");
         })
+
+        // enable search button
+        searchBtnEl.prop("disabled", false);
       });
     })
 };
@@ -455,6 +460,7 @@ searchBtnEl.on("click", function (evt) {
   let anArray = getOptionalParams();
   getRecipeData(userinput, anArray);
 });
+
 
 // <------ Event Listener For Fun Fact Btn ------>
 infoBtnEl.on("click", function (evt) {
