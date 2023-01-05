@@ -10,15 +10,3 @@
     margin: auto 0;
 }
 
-#optionalParams {
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-
-#optionalParams .column {
-    margin: 0 auto;
-    border: 1px solid black;
-    border-radius: 50%;
-    background-color: lightgrey;
-}
