@@ -1,88 +1,21 @@
+// [{===========================================================================================================================================================================================================================================================================================}]
+// [{============== Important Note: The API that this project utilizes is limited to 10 API calls per hour with the free-version. When those calls have been used up, the page behaves poorly. In a real-life scenario this project would use a paid version of this API. ======================}]
+// [{===========================================================================================================================================================================================================================================================================================}]
+
+// {======= Variables and Functions Executed on Load =======}
+let searchBtnEl = $("#searchBtn");
+let infoBtnEl = $("#infoBtn");
+let userInputTextEl = $("#userInputText");
+let userSelectionEl = $("#listSelection");
+let api_id = "05349be7";
+let api_key = "302d463311eb7ca81f0fd2dcae2aa923";
 let searchArray = []
+buttonPrint()
 
-// modal code
-// function modalCommand() {
-//   // createModal()
-//   // Functions to open and close a modal
-//   function openModal($el) {
-//     $el.classList.add('is-active');
-//   }
-
-//   function closeModal($el) {
-//     $el.classList.remove('is-active');
-//   }
-
-//   function closeAllModals() {
-//     (document.querySelectorAll('.modal') || []).forEach(($modal) => {
-//       closeModal($modal);
-//     });
-//   }
-
-//   // Add a click event on buttons to open a specific modal
-//   (document.querySelectorAll('.js-modal-trigger') || []).forEach(($trigger) => {
-//     const modal = $trigger.dataset.target;
-//     const $target = document.getElementById(modal);
-
-//     $trigger.addEventListener('click', () => {
-//       openModal($target);
-//     });
-//   });
-
-//   // Add a click event on various child elements to close the parent modal
-//   (document.querySelectorAll('.modal-background, .modal-close, .modal-card-head .delete, .modal-card-foot .button') || []).forEach(($close) => {
-//     const $target = $close.closest('.modal');
-
-//     $close.addEventListener('click', () => {
-//       closeModal($target);
-//     });
-//   });
-
-//   // Add a keyboard event to close all modals
-//   document.addEventListener('keydown', (event) => {
-//     const e = event || window.event;
-
-//     if (e.keyCode === 27) { // Escape key
-//       closeAllModals();
-//     }
-//   });
-
-//   // back button closes modal
-//   $('#back-button').on('click', (event) => {
-//     closeAllModals();
-//   });
-// }
-// modalCommand()
-
-// creates modal dom
-function createModal() {
-  let modalCard = `
-    <div id = "recipe-modal" class= "modal">
-      <div class="modal-background"></div>
-        <div class="modal-content">
-            <div class="box">
-                <div class="box">
-                    <p class="is-size-4 has-text-weight-medium">Ingredients</p>
-                    <li>1.5 oz Bourbon</li>
-                    <li>.5 oz Bourbon</li>
-                    <li>5 Dashes Bitters</li>
-                </div>
-                <div class="box">
-                    <p class="is-size-4 has-text-weight-medium">Recipe</p>
-                    <p>Pour all ingredients into a glass and stir.</p>
-                </div>
-                <div class="is-flex is-justify-content-space-between">
-                    <button class="button is-danger" id="back-button">Back</button>
-                    <button class="button is-link" id="save-button">Save</button>
-                </div>
-            </div>
-        </div>
-    </div >`
-  $('main').append(modalCard)
-}
-
-// this function prints the items from local storage as clickable buttons and appends a modal that fetches the recipe data by id
+// <------ Prints Buttons from Local Storage and Call Api Storing The Returned Data in Modal Element  ------>
 function buttonPrint() {
   var savedRecipes = JSON.parse(localStorage.getItem("modalCard")) || []
+  // prints buttons
   for (let i = 0; i < savedRecipes.length; i++) {
     let uniqueId = savedRecipes[i].id;
     let name = savedRecipes[i].name;
@@ -97,18 +30,17 @@ function buttonPrint() {
         </div>
       </div>
       `
-
-
+    // parameters for recipe box api call
     let urlApiEndpoint = "https://api.edamam.com/api/recipes/v2/";
     let urlApi = `${urlApiEndpoint}${uniqueId}?type=public&app_id=${api_id}&app_key=${api_key}&field=ingredients&field=calories&field=label`
 
+    // recipe box api call
     fetch(urlApi)
       .then((response) => { return response.json() })
       .then((data) => {
         let calories = data.recipe.calories;
         let fullTitle = name;
         let ingredients = data.recipe.ingredients;
-
         let modalContent =
           `
           <div class="modal" id="${uniqueId}-modal">
@@ -143,7 +75,6 @@ function buttonPrint() {
           target.append(listItem);
         });
 
-
         // for opening modal
         $(`#${uniqueId}-box`).on("click", function (evt) {
           let userClick = evt.target.nodeName;
@@ -154,20 +85,19 @@ function buttonPrint() {
           }
         })
 
-        // for closing modal
+        // for closing modal with back button
         $(`#${uniqueId}-modal`).on("click", ".is-danger", function (evt) {
           evt.preventDefault();
           let target = $(this).parents(".modal").first();
           target.removeClass("is-active");
         })
 
+        // for closing modal by clicking outside modal on parent elements
         function closeModal($el) {
           $el.classList.remove('is-active');
         }
-
-        (document.querySelectorAll('.modal-background, .modal-close, .modal-card-head .delete, .modal-card-foot .button') || []).forEach(($close) => {
+        (document.querySelectorAll('.modal-background, .button') || []).forEach(($close) => {
           const $target = $close.closest('.modal');
-      
           $close.addEventListener('click', () => {
             closeModal($target);
           });
@@ -178,7 +108,7 @@ function buttonPrint() {
   }
 }
 
-// this function clears printed buttons from the recipe box
+// <-------- this function clears printed buttons from the recipe box ----------->
 function clearRecipeBox() {
   var savedRecipes = JSON.parse(localStorage.getItem("modalCard")) || []
   for (let i = 0; i < savedRecipes.length; i++) {
@@ -186,7 +116,7 @@ function clearRecipeBox() {
   }
 }
 
-// this function is executed with the saveme button is clicked and saves items to local storage
+// <---------- this function is executed with the save button is clicked and saves items to local storage --------->
 function saveRecipe(event) {
   clearRecipeBox()
   var savedRecipes = JSON.parse(localStorage.getItem("modalCard")) || []
@@ -195,13 +125,11 @@ function saveRecipe(event) {
     id: event.target.dataset.id
   }
   savedRecipes.unshift(recipeData)
-
-  //This line of code adds selected recipe information to local storage
   localStorage.setItem("modalCard", JSON.stringify(savedRecipes))
   buttonPrint();
 };
 
-// this event listener removes the nearest ingredient card and removes the data from the ingredient card from the search-array using the replace and trim functions to trim the string and the indexOf and splice to remove the element from the array
+// <---------- this event listener removes the nearest ingredient card and removes the data from the ingredient card from the search-array using the replace and trim functions to trim the string and the indexOf and splice to remove the element from the array ------------->
 $('#appear').on('click', function (event) {
   let userClick = event.target.nodeName;
   if (userClick === 'BUTTON') {
@@ -218,7 +146,7 @@ $('#appear').on('click', function (event) {
 }
 )
 
-// function that removes the clicked on recipe using the closest method
+// <------------- function that removes the clicked on recipe using the closest method ------------>
 $('#recipe-box').on('click', function (event) {
   let userClick = event.target.nodeName;
   if (userClick === 'BUTTON') {
@@ -233,12 +161,10 @@ $('#recipe-box').on('click', function (event) {
     }
     localStorage.setItem("modalCard", JSON.stringify(savedRecipes))
   }
-  // modalCommand()
-
 }
 )
 
-// function that adds ingredients to the panel
+// <----------- function that adds ingredients to the panel ------------>
 $('#listSelection').on('change', function (event) {
   event.preventDefault();
   let singleSelection = $('#listSelection').val();
@@ -262,15 +188,6 @@ $('#listSelection').on('change', function (event) {
   }
 }
 )
-
-// {======= Modal / Card / Fun Fact =======}
-let searchBtnEl = $("#searchBtn");
-let infoBtnEl = $("#infoBtn");
-let userInputTextEl = $("#userInputText");
-let userSelectionEl = $("#listSelection");
-let api_id = "05349be7";
-let api_key = "302d463311eb7ca81f0fd2dcae2aa923";
-buttonPrint()
 
 // <------ Get User Dropdown Selection ------>
 function getUserSelection() {
@@ -317,8 +234,6 @@ function getRecipeData(userInput, anArrayFromOptionalParams) {
   fetch(urlApi)
     .then((response) => { return response.json() })
     .then((data) => {
-      // console.log(data);
-      // console.log(urlApi);
 
       let top8Data = data.hits.slice(0, 8);
 
@@ -378,17 +293,12 @@ function getRecipeData(userInput, anArrayFromOptionalParams) {
         $("#cardsSection").append(appendedCard);
         $("#cardsSection").append(modalContent);
 
-
-        //To add new more information from saved recipes to lacal storage, add additional unique "data-.." code
-
-
         // for appending ingredients list items
         ingredients.forEach((el) => {
           let target = $(`#${uniqueId}-modal .ingredientSection`);
           let listItem = `<li>${el.text}</li>`;
           target.append(listItem);
         });
-
 
         // for opening modal
         $(`#${uniqueId}-card`).on("click", function (evt) {
@@ -417,8 +327,6 @@ function getCocktialDbData(userInput) {
   fetch(urlApi)
     .then(res => { return res.json() })
     .then(data => {
-      // console.log(data);
-      // console.log(urlApi);
 
       // Some data cannot be found in TheCockTailDb Api, so the following is some code for error handling...
       let funFactTitle = (data.ingredients) ? data.ingredients[0].strIngredient : ("Canot found the ingredient.");
